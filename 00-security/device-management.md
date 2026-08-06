@@ -75,3 +75,34 @@
     - MFA
     - Passwordless authentication
     - Password autofill
+
+## AD Joined Devices
+
+- Definition: joined only to Azure AD requiring organizational account to sign-in to the device
+- Primary audience: 
+    - Suitable for both cloud-only and hybrid organizations
+    - Applicable to all users in an organization
+- Device ownership: organization
+- Operating systems:
+    - All Windows 10 devices except Windows 10 Home
+    - Windows Server 2019 Virtual Machine running in Azure (Server Core is not supported)
+- Provisioning:
+    - Self-service: Windows OOBE or Settings, Bulk enrollment, Windows Autopilot
+- Device sign in options:
+    - Organizational accounts using Password, Windows Hello for Business, FIDO2.0 security keys
+- Device management:
+    - Mobile Device Management (Microsoft Intune)
+    - Co-management with Microsoft Intune and Microsoft Endpoint Configuration Manager
+- Key capabilities:
+    - SSO to both cloud and on-premises resources
+    - Conditional Access through MDM enrollment and MDM compliance evaluation
+    - Self-service Password Reset and Windows Hello PIN reset on lock screen
+    - Enterprise State Roaming across devices
+
+### FIDO2.0 Security Keys
+
+- FIDO Alliance has published 3 sets of open specification for simpler, stronger user authentication:
+    - FIDO Universal Second Factor (FIDO U2F)
+    - FIDO Universal Authentication Framework (FIDO UAF)
+    - Client to Authenticate Protocols (CTAP)
+        - CTAP is complementary to the W3C's Web Authentication (WebAuthn) specification; together they are known as FIDO2
