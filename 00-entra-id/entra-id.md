@@ -118,3 +118,23 @@
     - Group assignment
     - Rule-based assignment: we can use rules to assign resources to group members
     - External authority assignments: we can assign access via external sources, e.g. on-premises AD, SaaS app
+
+## Entra ID - External ID
+
+- Lets external users access our apps and resources using their credentials
+- Use cases:
+    - Enables B2B collaboration by sharing apps with workforce or external users
+    - Develop apps for multi-tenant or single tenant environments
+    - Allows creation of custom-branded consumer apps
+    - Allows managing customer identities and access for consumer apps
+
+## Service Principal
+
+- It is a security identity used by registered apps or service to access specific Azure resources
+- Service principals define:
+    - Who can access the application
+    - What resources the application can access
+- A service princial is created in each tenant where the application is used and references the globally unique application obejct
+    - The ApplicationID represents the global application across all tenants
+    - The ObjectD is an unique value for an application object
+    - For Registered Apps, the service principal will be created when a user from a tenant consents to the using the app or API
