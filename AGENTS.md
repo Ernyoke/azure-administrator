@@ -6,7 +6,7 @@ This repository contains personal study notes for the **AZ-104: Microsoft Azure 
 
 ## Note format
 
-Follow the exact style used in `00-entra-id/entra-id.md`:
+Follow the exact style used in `00-security/entra-id.md`:
 
 - A single `#` heading at the top of the file with the topic name
 - `##` headings for each sub-topic
