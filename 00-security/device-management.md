@@ -106,3 +106,127 @@
     - FIDO Universal Authentication Framework (FIDO UAF)
     - Client to Authenticate Protocols (CTAP)
         - CTAP is complementary to the W3C's Web Authentication (WebAuthn) specification; together they are known as FIDO2
+- A security key is q secondary device used as second step in authentication process to gain access to a device, workstation or application
+
+## Hybrid Azure AD Joined Devices
+
+- Definition: Joined to on-premises AD devices and Azure AD requiring organizational account to sign into the device
+- Primary audience:
+    - Suitable for hybrid organizations with existing on-premises AD infrastructure
+    - Applicable to all users in an organization
+- Device ownership: organization
+- Supported Operating Systems (Current & Exam-Relevant)
+    - Windows 10 (Pro, Enterprise, Education — Home not supported)
+    - Windows 11 (Pro, Enterprise, Education)
+    - Windows Server 2016, 2019, 2022
+- Provisioning:
+    - Device is domain-joined to on-premises Active Directory
+    - Device is automatically registered with Microsoft Entra ID using:
+        - Microsoft Entra Connect (formerly Azure AD Connect)
+        - AD FS (legacy / less common)
+    - Supported provisioning scenarios:
+        - IT-managed domain join
+        - Windows Autopilot (Hybrid Join scenario)
+- Device sign-in options
+    - Users sign in with Microsoft Entra ID organizational accounts using:
+        - Password
+        - Windows Hello for Business
+        - FIDO2 security keys
+- Device management
+        - Group Policy
+        - Microsoft Configuration Manager
+        - Co-management with Microsoft Intune (recommended)
+- Key capabilities:
+    - Single Sign-On (SSO) to:
+        - On-premises resources
+        - Microsoft Entra ID–integrated cloud apps
+    - Conditional Access
+        - Enforced through Microsoft Entra ID
+        - Enhanced when devices are Intune-managed or co-managed
+    - Self-Service Password Reset (SSPR)
+    - Windows Hello for Business PIN reset
+    - Enterprise State Roaming
+
+## Device Identity vs Device Management
+
+- Microsoft Entra registration and join create a device identity in Microsoft Entra ID
+- Intune enrollment places a device under Mobile Device Management (MDM)
+- A device can have a Microsoft Entra identity without being managed by Intune
+- A device can be:
+    - Registered or joined
+    - Intune-enrolled or unenrolled
+    - Compliant or noncompliant
+    - Enabled or disabled in Microsoft Entra ID
+- Device compliance is evaluated by Intune and can be used as a Conditional Access signal
+
+## Device Registration Settings
+
+- Microsoft Entra ID > Devices > Device settings controls who can join devices
+- Users may join devices to Microsoft Entra ID:
+    - All: any user can join devices
+    - Selected: only members of selected groups can join devices
+    - None: users cannot join devices
+- Maximum number of devices per user limits how many devices a user can register or join
+- Additional local administrators on Microsoft Entra joined devices can be selected globally
+- Global Administrators and the user who performs the join become local administrators by default
+
+## Intune Enrollment
+
+- Automatic MDM enrollment can enroll Microsoft Entra joined devices into Intune
+- MDM user scope determines which users are automatically enrolled:
+    - None
+    - Some
+    - All
+- MAM user scope applies app protection policies without requiring full device enrollment
+- Enrollment restrictions can control:
+    - Supported device platforms
+    - Personally owned devices
+    - Operating system versions
+    - Maximum number of enrolled devices per user
+- Microsoft Entra join and Intune enrollment are separate operations even when automatic enrollment performs both during setup
+
+## Compliance Policies
+
+- Intune compliance policies define requirements a device must meet
+- Common compliance settings include:
+    - Require encryption
+    - Require a password or PIN
+    - Block rooted or jailbroken devices
+    - Require a minimum operating system version
+    - Require an acceptable device threat level
+- Devices without an assigned compliance policy can be marked compliant or noncompliant according to the tenant-wide compliance setting
+- A compliance policy does not block access by itself
+- Conditional Access enforces access decisions by using the device compliance state
+- A grace period can give users time to remediate a noncompliant device before it is marked noncompliant
+
+## Conditional Access for Devices
+
+- Conditional Access can use device-based grant controls:
+    - Require device to be marked as compliant
+    - Require Microsoft Entra hybrid joined device
+- Require device to be marked as compliant requires the device to be enrolled and compliant in Intune
+- Require Microsoft Entra hybrid joined device is commonly used for organization-owned domain-joined Windows devices
+- Policies should exclude emergency access accounts to prevent tenant lockout
+- Report-only mode evaluates a policy without enforcing it
+- Conditional Access requires Microsoft Entra ID P1 or P2
+
+## Device Administration
+
+- Device administrators can perform common device tasks in the Microsoft Entra admin center
+- Cloud Device Administrator can enable, disable and delete devices in Microsoft Entra ID
+- Intune Administrator can manage devices, enrollment and compliance in Intune
+- Disabling a device prevents it from authenticating with Microsoft Entra ID but keeps the device object
+- Deleting a device removes its Microsoft Entra identity and should be used for retired, lost or stale devices
+- Revoking a user's refresh tokens forces reauthentication but does not delete the device
+- BitLocker recovery keys for eligible devices can be stored in Microsoft Entra ID and retrieved by authorized users or administrators
+
+## Device Troubleshooting
+
+- Device status can be checked on Windows with `dsregcmd /status`
+- Important `dsregcmd /status` fields include:
+    - AzureAdJoined: device is joined to Microsoft Entra ID
+    - DomainJoined: device is joined to on-premises Active Directory Domain Services
+    - WorkplaceJoined: a work or school account is registered on the device
+- A hybrid joined device normally reports both AzureAdJoined and DomainJoined as YES
+- The Microsoft Entra sign-in logs show Conditional Access results and the device information used during sign-in
+- Intune reports show enrollment, configuration and compliance failures
