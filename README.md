@@ -5,3 +5,7 @@
 1. Security:
     - [Microsoft Entra ID](00-security-and-governance/entra-id.md)
     - [Azure AD - Device Management](00-security-and-governance/device-management.md)
+2. Resource Management:
+    - [Azure Resource Manager (ARM)](01-resouce-management/azure-resource-manager.md)
+3. Storage:
+    - [Storage Accounts](02-storage/storage-accounts.md)
