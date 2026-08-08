@@ -185,6 +185,19 @@
     - Maximum number of enrolled devices per user
 - Microsoft Entra join and Intune enrollment are separate operations even when automatic enrollment performs both during setup
 
+## Windows Autopilot
+
+- Collection of technologies used to set up and pre-configure new devices for productive use
+- Initial deployment:
+    - Uses the Original Equipment Manufacturer (OEM)-optimized version of Windows 10 preinstalled on the device
+    - Removes the need to maintain custom images and drivers for each device model
+    - Transforms the existing Windows 10 installation into a business-ready state without re-imaging
+- Devices can be managed after deployment with:
+    - Microsoft Intune
+    - Windows Update for Business
+    - Microsoft Endpoint Configuration Manager
+    - Other similar tools
+
 ## Compliance Policies
 
 - Intune compliance policies define requirements a device must meet
