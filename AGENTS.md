@@ -11,11 +11,13 @@ Follow the exact style used in `00-security/entra-id.md`:
 - A single `#` heading at the top of the file with the topic name
 - `##` headings for each sub-topic
 - Content is written as bullet lists using `-`, never prose paragraphs
+- Use spaces for all indentation in Markdown files, never tabs
 - Nested bullets are indented by 4 spaces
 - A bullet that introduces a nested list ends with `:`
 - Definitions use the form `- Term: explanation`
 - Sentences do not end with a period
-- Acronyms are expanded on first use, e.g. `LDAP (Lightweight Directory Access Protocol)`
+- Expand unfamiliar or exam-specific acronyms on first use, e.g. `LDAP (Lightweight Directory Access Protocol)`
+- Do not expand widely understood technical acronyms such as JSON, HTTP, URL or API
 - Keep entries short and exam-focused; prefer facts that are likely to be tested on AZ-104
 
 ## Conventions

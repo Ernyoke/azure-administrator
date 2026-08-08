@@ -92,3 +92,18 @@
         - Maintain a relationship between the blueprint definition, which describes what should be deployed, and the blueprint assignment, which records what was deployed
         - Can upgrade several subscriptions at once when they are governed by the same blueprint
         - Support **improved tracking and auditing of deployments**
+
+## Moving Resources to a New Resource Groups
+
+- Reference: https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/move-resource-group-and-subscription?tabs=azure-cli
+- Azure resources can't be moved if a read-only lock exists on the source, destination resource group, or subscription
+- Limitations for moving App Services across subscriptions/resource groups:
+    - The destination resource group must not have any existing App Service resources. App Service resources include:
+        - Web apps
+        - App Service plans
+        - Uploaded or imported TLS/SSL certificates
+        - App Service Environments
+    - We must move all App Service resources in the resource group together
+    - We cannot move App Service Environments to a new resource group or subscription. We can recreate the environment and use backup and restore feature
+    - We cannot move apps with private endpoints and with virtual network integration
+    - We can only move App Service resources from the resource group where we originally created them
