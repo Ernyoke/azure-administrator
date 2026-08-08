@@ -93,6 +93,29 @@
         - Can upgrade several subscriptions at once when they are governed by the same blueprint
         - Support **improved tracking and auditing of deployments**
 
+## Azure Deployment Stacks
+
+- Azure deployment stack: an Azure resource that manages a collection of Azure resources as a single unit
+- Uses a Bicep file, ARM template or template spec to define the managed resources
+- Unlike a standard ARM template deployment, a deployment stack maintains a relationship with its managed resources
+- A stack can be created at resource group, subscription or management group scope
+- Updating the template and redeploying the stack adds, updates or removes managed resources
+- `actionOnUnmanage`: controls what happens when a resource is removed from the template or the stack is deleted:
+    - `detachAll`: stops managing resources and resource groups without deleting them
+    - `deleteResources`: deletes managed resources but detaches resource groups
+    - `deleteAll`: deletes managed resources and managed resource groups
+- Detached resources continue to exist in Azure but are no longer managed by the stack
+- Deny settings protect explicitly managed resources from unauthorized control-plane operations:
+    - `None`: does not deny operations
+    - `DenyDelete`: prevents deletion
+    - `DenyWriteAndDelete`: prevents modification and deletion
+- Deny settings can apply to child scopes and can exclude specific actions or Microsoft Entra principals
+- Deny settings do not protect data-plane operations or resources created implicitly by another resource
+- Built-in deployment stack roles:
+    - Azure Deployment Stack Contributor: manages stacks but cannot create or delete their deny assignments
+    - Azure Deployment Stack Owner: manages stacks and their deny assignments
+- Deployment stacks can be managed through the Azure portal, Azure CLI or Azure PowerShell
+
 ## Moving Resources to a New Resource Groups
 
 - Reference: https://learn.microsoft.com/en-us/azure/azure-resource-manager/management/move-resource-group-and-subscription?tabs=azure-cli
