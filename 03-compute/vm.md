@@ -89,3 +89,23 @@
     - A1-A4: 100 ACU per vCPU with a 1:1 vCPU-to-core ratio
     - D1-D14: 160-250 ACU per vCPU with a 1:1 vCPU-to-core ratio
 - D1-D14 VMs are approximately 60% to 150% more performant than A1-A4 VMs
+
+## Hyper-V and Generation 1 vs 2
+
+- Hyper-V is Microsoft's hardware virtualization product.
+- It lets us create and run a software version of a computer, called a virtual machine
+- Each virtual machine acts like a complete computer, running an operating system and programs.
+- Hyper-V is just like Virtual Box
+- There are two generations of Hyper-V VMs:
+    - Generation 1 - support most guest operating systems
+    - Generation 2 - support most 64-bit versions of Windows and more current versions of Linux and FreeBSD operating systems
+- Azure has Generation 1 and Generation 2 VMs which are similar but not exactly the same as Hyper-V Generations
+- The most important difference between Azure Gen 1 and Gen 2:
+    - Gen 1:
+        - BIOS-based architecture
+    - Gen 2:
+        - UEFI-based boot architecture (improved boot and installation times)
+        - Secure Boot verifies the boot loader is signed by a trusted authority
+        - Larger boot volume up to 64 TB
+- Hyper-V VMs are packaged into Virtual Hard Disk formats: VHD or VHDX files
+- Azure only supports VHD (fixed size) for VM disks. VHDX is not supported and must be converted before use, regardless of VM generation
