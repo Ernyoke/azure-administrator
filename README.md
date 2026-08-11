@@ -14,3 +14,5 @@
     - [Azure Virtual Machines](03-compute/vm.md)
 5. Monitoring and Backup:
     - [Azure Monitor](04-monitoring-and-backup/azure-monitor.md)
+    - [Azure Backup Service](04-monitoring-and-backup/azure-backup.md)
+    - [Azure Site Recovery](04-monitoring-and-backup/azure-site-recovery.md)
