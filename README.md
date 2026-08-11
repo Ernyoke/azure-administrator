@@ -2,7 +2,7 @@
 
 ## Table of Contents
 
-1. Security:
+1. Security and Governance:
     - [Microsoft Entra ID](00-security-and-governance/entra-id.md)
     - [Azure AD - Device Management](00-security-and-governance/device-management.md)
 2. Resource Management:
@@ -12,3 +12,5 @@
     - [Storage Accounts](02-storage/storage-accounts.md)
 4. Compute:
     - [Azure Virtual Machines](03-compute/vm.md)
+5. Monitoring and Backup:
+    - [Azure Monitor](04-monitoring-and-backup/azure-monitor.md)
