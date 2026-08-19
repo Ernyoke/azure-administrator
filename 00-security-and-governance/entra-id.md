@@ -138,3 +138,23 @@
     - The ApplicationID represents the global application across all tenants
     - The ObjectD is an unique value for an application object
     - For Registered Apps, the service principal will be created when a user from a tenant consents to the using the app or API
+
+## Managed Identities
+
+- Managed identities provide Azure resources with identities that have their own roles and tokens
+- Entra ID authenticates managed identities and verifies their permissions to access or manage other resources
+- Benefits:
+    - Removes the need to store or manually manage credentials
+    - Prevents sensitive authentication details from being shared over the network
+    - Simplifies and automates authentication between Azure resources
+- Example: Azure Front Door can use a managed identity to retrieve a secret from Azure Key Vault without exposing credentials
+- Types:
+    - System-assigned identity:
+        - Created and managed by Entra ID for a specific Azure resource
+        - Only that Azure resource can use the identity to request tokens from Entra ID
+        - Deleted when the Azure resource is deleted
+    - User-assigned identity:
+        - Created and managed as a separate Azure resource
+        - Can be assigned to and shared across multiple Azure resources
+        - Its lifecycle is independent of the resources that use it
+    
