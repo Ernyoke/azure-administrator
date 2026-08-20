@@ -21,3 +21,4 @@
     - [Azure Container Instances (ACI)](05-containers/aci.md)
 7. Networking:
     - [Azure DNS](06-networking/azure-dns.md)
+    - [Azure Firewall](06-networking/azure-firewall.md)
