@@ -16,3 +16,7 @@
     - [Azure Monitor](04-monitoring-and-backup/azure-monitor.md)
     - [Azure Backup Service](04-monitoring-and-backup/azure-backup.md)
     - [Azure Site Recovery](04-monitoring-and-backup/azure-site-recovery.md)
+6. Containers:
+    - [Azure Container Instances (ACI)](05-containers/aci.md)
+7. Networking:
+    - [Azure DNS](06-networking/azure-dns.md)

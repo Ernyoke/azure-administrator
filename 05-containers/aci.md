@@ -24,3 +24,19 @@
 - Multi-container groups can be deployed with:
     - ARM templates
     - YAML files
+
+## Container Restart Policies
+
+- A container restart policy specifies what a container should do when their process has completed
+- Azure Container Instances has 3 restart-policy options:
+    - Always (default) Containers are always restarted. Suited for long running tasks eg. web-servers
+    - Never Containers run one time only. Suited for one off tasks. eg. background jobs
+    - OnFailure Containers that encounter an error
+
+## Container Environment Variables
+
+- Environment variables (Env Vars) allow us to pass configuration details to your containers
+- Environment variables can be set via the Azure Portal, CLI or PowerShell
+- Secured Environment Variables:
+    - By default, Environment Variables are store in plaintext
+    - If we need to secure your environment variables you can use the --secure-environment-variables flag
