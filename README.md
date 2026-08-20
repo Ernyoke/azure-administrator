@@ -5,6 +5,7 @@
 1. Security and Governance:
     - [Microsoft Entra ID](00-security-and-governance/entra-id.md)
     - [Azure AD - Device Management](00-security-and-governance/device-management.md)
+    - [Azure Roles](00-security-and-governance/azure-roles.md)
 2. Resource Management:
     - [Azure Resource Manager (ARM)](01-resouce-management/azure-resource-manager.md)
     - [ARM Templates](01-resouce-management/arm-templates.md)

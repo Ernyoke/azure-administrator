@@ -1,96 +1,101 @@
 # Microsoft Entra ID
 
-- Entra ID is Microsoft's cloud-based identity and access management service, which helps users sign in and access Active Directory-related resources
-- Can be used to login into:
+- Microsoft Entra ID is Microsoft's cloud-based identity and access management service
+- Can be used to sign in to:
     - External resources:
         - Microsoft 365
-        - Azure Portal
+        - Azure portal
         - SaaS applications
     - Internal resources:
-        - Applications within our internal networking
+        - Applications within an internal network
         - Access to workstations on-premises
 
 ## Entra ID Editions
 
 - Free:
-    - MFA
-    - SSO
-    - Basic Security and Usage Reports
-    - Directory synchronizations
-- Premium 1 (P1) - included with Microsoft 365 E3 and Business Premium
-    - Everything included in free
-    - Hybrid architecture
-    - Advanced group access
-    - Conditional access (it is free with other cloud providers such as AWS or Google Cloud)
-- Premium 2 (P2) - Available with Microsoft 365 E5 license
-    - Everything from P1
-    - Identity protection
-    - Identity governance
+    - Security defaults with multifactor authentication (MFA)
+    - Single sign-on (SSO)
+    - Basic security and usage reports
+    - Directory synchronization
+- Premium P1:
+    - Includes Free features
+    - Included with Microsoft 365 E3 and Microsoft 365 Business Premium
+    - Conditional Access
+    - Dynamic groups and group-based licensing
+    - Hybrid identity capabilities
+- Premium P2:
+    - Includes P1 features
+    - Included with Microsoft 365 E5
+    - Microsoft Entra ID Protection
+    - Privileged Identity Management (PIM)
+    - Access reviews and entitlement management capabilities
 - Entra Suite:
-    - Adds advanced security governance and identity verification solutions
-    - Requires P1 subscription (adds additional capacities to an existing Premium edition)
+    - Includes Microsoft Entra Private Access, Internet Access, ID Governance, ID Protection and premium Verified ID capabilities
+    - Requires an existing P1 subscription or a package that includes P1
 
 ## Entra ID Use Cases
 
-- Entra ID can authorize and authenticate to multiple resources, such as:
-    - To our on-premises AD
-    - To our web-applications
-- Allows users to login with their IdP (Identity Provider) such as Facebook or Google
-- Allows login to Office 365, Azure and other Microsoft services like Dynamics 365, Teams, SharePoint and other third party SaaS apps in the Azure Marketplace
+- Authenticates identities and authorizes access to cloud and on-premises applications
+- Supports hybrid identity with on-premises Active Directory Domain Services (AD DS)
+- Microsoft Entra External ID allows external users to sign in with an identity provider (IdP), such as Google or Facebook
+- Provides SSO to Microsoft 365, Azure, Dynamics 365 and third-party software as a service (SaaS) applications
 
 ## Active Directory vs Entra ID
 
-- Active Directory Domain Services was introduced with Windows 2000 to give organizations the ability to manage multiple on-premises infrastructure components using a single identity per user
-- Entra ID takes this approach to the next level by providing organizations with an Identity as a Service (IDaaS) solution for all their apps across cloud and on-premises
+- AD DS provides centralized identity, authentication and management for on-premises domain resources
+- Microsoft Entra ID provides identity as a service (IDaaS) for cloud and on-premises applications
 - AD terminology:
     - Domain: logical grouping of AD objects on a network
-    - Domain Controller (DC): is a server that authenticates user identities and authorizes their access to resources
-    - Domain Computer: a computer that is registered with a central authentication database. A domain computer is an AD Object
-    - AD Object: is the basic element of an AD such as Users, Groups, Printers, Computers, Shared folders
-    - Group Policy Objects (GPO): a virtual collection of policy settings, controls what AD Objects have access to
-    - Organizational Units (OU): a subdivision within an AD into which we can place users, groups, computers
-    - Directory Service (AD DS): provides the methods for storing directory data and making this data available to network users and administrators. A DS runs on a Domain Controller
+    - Domain controller (DC): server that authenticates identities and authorizes access to domain resources
+    - Domain computer: computer joined to an AD DS domain and represented by a computer object
+    - AD object: directory entry such as a user, group, computer or printer
+    - Group Policy Object (GPO): collection of policy settings applied to users and computers
+    - Organizational unit (OU): container used to organize users, groups, computers and other objects within a domain
+    - Directory service: stores directory data and makes it available to users, administrators and applications
 
 ## Tenant
 
 - A tenant represents an organization within Entra ID
 - It is a dedicated Entra ID service instance
-- It is automatically created when we sign up for either: Azure, Intune, Microsoft 365
-- Each Entra ID tenant is distinct and separate from other Entra ID tenants, allowing us to manage users, groups and resources within that scope
+- Created automatically when an organization signs up for a Microsoft cloud service such as Azure, Intune or Microsoft 365
+- Each tenant is distinct from other tenants and provides a boundary for managing identities, applications and access
 
-## Entra Domain Services
+## Microsoft Entra Domain Services
 
-- Provides managed domain services
+- Provides managed AD DS capabilities without requiring us to deploy, manage or patch domain controllers
 - Domain services include:
-    - Domain joins: connect on-premises and cloud-based resources
-    - Group policies: apply consistent security settings across users and devices
+    - Domain join for Azure virtual machines
+    - Group Policy
     - LDAP (Lightweight Directory Access Protocol)
     - Kerberos/NTLM authentication
-- No need to deploy, manage or patch DCs in the cloud, ideal for lift-and-shift migrations from on-premises to Azure
+- Synchronizes users, groups and credentials one way from Microsoft Entra ID to the managed domain
+- The managed domain is separate from and not an extension of an on-premises AD DS domain
 - Use cases:
-    - Simplifies moving traditional workloads to cloud
-    - Maintains compatibility with existing on-premises applications
+    - Lift and shift legacy applications that depend on AD DS protocols to Azure
+    - Support Azure workloads that require domain join, LDAP, Kerberos, NTLM or Group Policy
 
 ## Entra Connect
 
-- It is a hybrid service that connects on-premises Active Directory to Entra ID
-- Allows for seamless SSO from on-premises workstations to Azure
-- Has the following features:
-    - Password hash synchronization: sign-in method, synchronizes a hash of user's on-premises AD password with Entra ID
+- An on-premises Microsoft application that integrates AD DS with Microsoft Entra ID
+- Provides users with a common identity for on-premises and cloud resources
+- Features:
+    - Password hash synchronization: synchronizes a hash of a user's on-premises AD DS password hash with Microsoft Entra ID
     - Pass-through authentication: sign-in method, allows users to use the same password on-premises and in the cloud
-    - Federation integration: supports hybrid environments using on-premises AD FS infrastructure, for certificate renewal
-    - Synchronization: responsible for creating users, groups and other objects, ensures on-prem and cloud data matches
-    - Health monitoring: robust monitoring and provides a central location in the Azure portal to view this activity (Microsoft Entra Connect Health)
+    - Federation integration: configures and manages hybrid environments that use Active Directory Federation Services (AD FS)
+    - Synchronization: creates and updates users, groups and other directory objects in Microsoft Entra ID
+    - Seamless SSO: signs in users on domain-joined devices without requiring them to re-enter credentials
+    - Microsoft Entra Connect Health: monitors on-premises identity infrastructure and requires P1 licensing
+- Microsoft Entra Cloud Sync is Microsoft's strategic direction for cloud-managed synchronization
 
 ## Entra ID - Users
 
-- Users represent an identity for a person or employee in the domain
-- A user has login credentials and can use them to log into Azure portal
-- Roles and administrative roles can be assigned to users
+- A user object represents an identity for a person
+- A user can have credentials used to sign in to the Azure portal and other applications
+- Microsoft Entra roles and Azure roles can be assigned to users
 - Users can be added to groups
 - We can enforce authentication methods such as MFA
 - User sign-ins can be tracked
-- We can track devices from where the user logs in. We can allow/deny devices
+- Sign-in and device information can be used by Conditional Access policies to allow or block access
 - We can assign Microsoft licenses to users
 - Entra ID has two kinds of users:
     - User: belongs to our organization
@@ -98,51 +103,51 @@
 
 ## Entra ID - Groups
 
-- Groups in Microsoft Entra ID let the resource owner assign a set of access permissions to all the members at once, instead of granting rights individually
+- Groups allow access and licenses to be assigned to multiple users instead of individually
 - Groups contain:
-    - Owners: have permission to add/remove members
-    - Members: have permission to do things
+    - Owners: manage the group and its membership
+    - Members: receive access assigned to the group
 - Assignment:
-    - We can assign roles directly to a group
-    - We can assign applications directly to a group
+    - Applications and licenses can be assigned to groups
+    - Microsoft Entra roles can be assigned only to role-assignable groups
 - Request to join a group:
-    - The group owner can let users find their own groups to join, instead of assigning them
-- Owners can configure groups to:
-    - Automatically accept all join requests, or require approval
-    - This feature is only available with Entra ID P1 or P2 licenses
+    - Owners can allow users to request membership instead of assigning them directly
+    - Requests can be approved automatically or require owner approval
+    - Self-service group management requires P1 or P2 licensing
 
 ## Entra ID - Assign Access Rights
 
-- There are 4 ways we can assign resource access rights to users:
+- Resource access can be assigned through:
     - Direct assignment
     - Group assignment
-    - Rule-based assignment: we can use rules to assign resources to group members
-    - External authority assignments: we can assign access via external sources, e.g. on-premises AD, SaaS app
+    - Rule-based assignment: dynamic membership rules add users to groups based on attributes
+    - External authority assignment: an external source, such as on-premises AD DS, determines membership
 
 ## Entra ID - External ID
 
-- Lets external users access our apps and resources using their credentials
+- Provides identity solutions for external users
 - Use cases:
-    - Enables B2B collaboration by sharing apps with workforce or external users
-    - Develop apps for multi-tenant or single tenant environments
-    - Allows creation of custom-branded consumer apps
-    - Allows managing customer identities and access for consumer apps
+    - External tenants: business-to-business (B2B) collaboration with partners, suppliers and guests
+    - External tenants: business-to-consumer (B2C) customer identity and access management (CIAM) for customer-facing applications
+    - Supports external identities from other Microsoft Entra tenants, social identity providers and one-time passcodes
 
 ## Service Principal
 
-- It is a security identity used by registered apps or service to access specific Azure resources
-- Service principals define:
+- A service principal is the local representation of an application in a Microsoft Entra tenant
+- Defines:
     - Who can access the application
-    - What resources the application can access
-- A service princial is created in each tenant where the application is used and references the globally unique application obejct
-    - The ApplicationID represents the global application across all tenants
-    - The ObjectD is an unique value for an application object
-    - For Registered Apps, the service principal will be created when a user from a tenant consents to the using the app or API
+    - What the application can access in that tenant
+- An application object is the global definition of an application and exists in its home tenant
+- A service principal is created in each tenant where the application is used and references the application object
+    - Application (client) ID: globally unique identifier shared by the application object and its service principals
+    - Object ID: unique identifier for a specific application object or service principal object in a tenant
+    - App registration creates an application object and a service principal in the home tenant
+    - Consent to a multitenant application creates a service principal in the consuming tenant
 
 ## Managed Identities
 
-- Managed identities provide Azure resources with identities that have their own roles and tokens
-- Entra ID authenticates managed identities and verifies their permissions to access or manage other resources
+- Managed identities provide Azure resources with automatically managed identities in Microsoft Entra ID
+- Azure resources use managed identities to request tokens for services that support Microsoft Entra authentication
 - Benefits:
     - Removes the need to store or manually manage credentials
     - Prevents sensitive authentication details from being shared over the network
@@ -150,11 +155,10 @@
 - Example: Azure Front Door can use a managed identity to retrieve a secret from Azure Key Vault without exposing credentials
 - Types:
     - System-assigned identity:
-        - Created and managed by Entra ID for a specific Azure resource
+        - Enabled on and tied to a specific Azure resource
         - Only that Azure resource can use the identity to request tokens from Entra ID
         - Deleted when the Azure resource is deleted
     - User-assigned identity:
-        - Created and managed as a separate Azure resource
+        - Created as a separate Azure resource
         - Can be assigned to and shared across multiple Azure resources
         - Its lifecycle is independent of the resources that use it
-    
