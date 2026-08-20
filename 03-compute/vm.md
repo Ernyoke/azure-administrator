@@ -6,14 +6,14 @@
 - Choose an operating system (OS), compute, memory and storage configuration for the server
 - Virtualization lets you run a server without buying and maintaining the physical hardware
 - Azure VMs still require maintenance, including:
-	- Applying OS patches
-	- Installing and configuring software packages
+    - Applying OS patches
+    - Installing and configuring software packages
 
 ## VM Configuration
 
 - VM image: defines the OS and initial software installed on the VM
 - VM size: defines the combination of virtual CPUs (vCPUs), memory and temporary storage capacity
-- A subscription can contain up to 25_000 VMs per region
+- A subscription can contain up to 25000 VMs per region
 - VM compute prices are shown as hourly rates, although usage is generally billed per second
 - Multiple managed disks can be attached to an Azure VM
 
@@ -33,79 +33,131 @@
 
 ## OS
 
-- When we laucn an VM we need to chose an Image which has a specific Operating System
-- Microsoft works closely with partner to ensue images available are updated and optimized for Azure runtime. Most of these images can be found in Azure Markterplace
-- Examples of supported/partened OSes:
-    - SUSE
+- A VM image defines the operating system and can include preinstalled software
+- Azure Marketplace provides Microsoft and partner images optimized for Azure
+- Common supported operating systems include:
+    - Windows Server
     - Red Hat Enterprise Linux
+    - SUSE Linux Enterprise Server
     - Ubuntu Server
     - Debian
-    - FreeBSD
-    - Azure Marketplace - Flatcar Container Linux
-    - RancherOS
-    - Bitnami Library for Azure
-    - Mesosphere DC/OS on Azure
-    - Docker images
-- We can bring our own Linux distribtuinb by creating a Virtual Hard Disk (VHD)
-- Azure does not suppoert VHDX yet
+    - Oracle Linux
+- Custom Windows or Linux images can be created from a fixed-size Virtual Hard Disk (VHD)
+- Azure VM disks do not support the VHDX format
 
-## Cloud Init
+## cloud-init
 
-- Cloud-init is the industry standard multi-distribution method for cross-platform cloud instance initialization
-- It is supported across all major public cloud providers, provisioning systems for private cloud infrastructure, and bare-metal installations
-- Cloud instances are initialized from a disk image and instance data with:
-    - Meta-data
-    - User-data: is a script that you want to run when an instance first boots up. eg. Install Apache web-server
-    - Vendor-data
-- Azure Virtual Machines supports cloud-init across most Linux Distros that support it
+- cloud-init: widely used method for configuring Linux VMs during initial boot
+- Can install packages, write files and configure users or security settings
+- Uses instance data such as:
+    - Metadata: information about the VM instance
+    - User data: user-supplied configuration or scripts
+    - Vendor data: configuration supplied by the image vendor or cloud platform
+- Azure supports cloud-init on enabled Linux images and virtual machine scale sets
+- The Azure Linux Agent is still required to process Azure VM extensions
 
-## Azure VMs - Sizes
+## VM Sizes
 
 - Azure VMs are available in a variety of sizes optimized for specific use cases
 - Azure VM sizes are grouped by:
     - Type: workload category, such as general purpose or compute optimized
-    - Size or series: hardware family, such as B or Dsv3, also called a Stock Keeping Unit (SKU) family
-- **General purpose**: balanced CPU-to-memory ratio for testing and development, small to medium databases and low to medium traffic web servers
-    - **SKUs**: B, Dsv3, Dv3, Dasv4, Dav4, DSv2, Dv2, Av2, DC, DCv2, Dv4, Dsv4, Ddv4 and Ddsv4
-- **Compute optimized**: high CPU-to-memory ratio for medium traffic web servers, network appliances, batch processes and application servers
-    - **SKUs**: F, Fs and Fsv2
-- **Memory optimized**: high memory-to-CPU ratio for relational database servers, medium to large caches and in-memory analytics
-    - **SKUs**: Esv3, Ev3, Easv4, Eav4, Ev4, Esv4, Edv4, Edsv4, Mv2, M, DSv2 and Dv2
-- **Storage optimized**: high disk throughput and I/O for big data, SQL, NoSQL databases, data warehousing and large transactional databases
-    - **SKUs**: Lsv2
-- **GPU**: specialized VMs for heavy graphics rendering, video editing, model training and deep learning inference, available with single or multiple graphics processing units (GPUs)
-    - **SKUs**: NC, NCv2, NCv3, NCasT4_v3 (preview), ND, NDv2 (preview), NV, NVv3 and NVv4
-- **High-performance compute**: the fastest and most powerful CPU VMs, with optional high-throughput Remote Direct Memory Access (RDMA) network interfaces
-    - **SKUs**: HB, HBv2, HC and H
+    - Series: group of sizes with similar hardware and features
+    - Size: specific configuration of virtual CPUs (vCPUs), memory, storage and accelerators
+- General purpose: balanced CPU-to-memory ratio for development, databases and web servers
+- Compute optimized: high CPU-to-memory ratio for batch processing, network appliances and application servers
+- Memory optimized: high memory-to-CPU ratio for relational databases, caches and in-memory analytics
+- Storage optimized: high disk throughput and input/output (I/O) for databases, data warehousing and large transactional workloads
+- Graphics processing unit (GPU) accelerated: specialized for compute-intensive, graphics-intensive and visualization workloads
+- Field-programmable gate array (FPGA) accelerated: hardware acceleration for workloads such as machine learning inference and video transcoding
+- High-performance computing (HPC): optimized for scientific and engineering workloads, often with Remote Direct Memory Access (RDMA)
 - The selected VM image may limit the VM sizes available
-- VM sizes can be sorted and filtered by options such as cost
+- VM size availability varies by Azure region and subscription
 
 ## Azure Compute Unit
 
 - Azure Compute Unit (ACU): provides a way to compare compute CPU performance across Azure Stock Keeping Units (SKUs)
 - ACU is standardized on the Small (Standard_A1) VM with a value of 100
-- Other SKUs indicate approximately how much faster they can run a standard benchmark
-- SKU family comparison:
-    - A1-A4: 100 ACU per vCPU with a 1:1 vCPU-to-core ratio
-    - D1-D14: 160-250 ACU per vCPU with a 1:1 vCPU-to-core ratio
-- D1-D14 VMs are approximately 60% to 150% more performant than A1-A4 VMs
+- ACU values provide an approximate relative comparison and do not guarantee performance
+- Current Linux CoreMark and Windows SPECInt benchmark scores provide more detailed compute comparisons
 
-## Hyper-V and Generation 1 vs 2
+## Hyper-V and Generation 1 vs Generation 2
 
-- Hyper-V is Microsoft's hardware virtualization product.
-- It lets us create and run a software version of a computer, called a virtual machine
-- Each virtual machine acts like a complete computer, running an operating system and programs.
-- Hyper-V is just like Virtual Box
+- Hyper-V: Microsoft's hardware virtualization platform for creating and running VMs
 - There are two generations of Hyper-V VMs:
-    - Generation 1 - support most guest operating systems
-    - Generation 2 - support most 64-bit versions of Windows and more current versions of Linux and FreeBSD operating systems
-- Azure has Generation 1 and Generation 2 VMs which are similar but not exactly the same as Hyper-V Generations
-- The most important difference between Azure Gen 1 and Gen 2:
-    - Gen 1:
-        - BIOS-based architecture
-    - Gen 2:
-        - UEFI-based boot architecture (improved boot and installation times)
-        - Secure Boot verifies the boot loader is signed by a trusted authority
-        - Larger boot volume up to 64 TB
-- Hyper-V VMs are packaged into Virtual Hard Disk formats: VHD or VHDX files
-- Azure only supports VHD (fixed size) for VM disks. VHDX is not supported and must be converted before use, regardless of VM generation
+    - Generation 1: BIOS boot with IDE disk controllers
+    - Generation 2: Unified Extensible Firmware Interface (UEFI) boot and SCSI disk controllers
+- Generation 2 capabilities include:
+    - Potentially faster boot and installation times
+    - OS disks larger than 2 TiB, up to a supported maximum of 4 TiB
+    - Secure Boot and virtual Trusted Platform Module (vTPM) when Trusted Launch is enabled
+- Not every VM size or image supports Generation 2
+- Azure supports fixed-size VHD files but not VHDX files for both VM generations
+
+## SSH, RDP and Bastion
+
+- Secure Shell (SSH): protocol used to establish a secure terminal connection between a client and server
+    - Commonly used to remotely connect to Linux VMs
+    - Uses TCP port 22
+    - SSH key pairs or passwords can be used to authenticate access
+- Remote Desktop Protocol (RDP): Microsoft protocol that provides a graphical interface for connecting to a remote computer
+    - Commonly used to remotely connect to Windows Server VMs
+    - Uses TCP and UDP port 3389
+- Azure Bastion: managed service that provides RDP and SSH connectivity to VMs through the Azure portal and a web browser
+    - Connections from the Azure portal use Transport Layer Security (TLS)
+    - VMs do not require public IP addresses for Bastion connections
+    - Acts as a hardened jump host between users and target VMs
+
+## Azure Bastion
+
+### Key Benefits
+
+- Provides browser-based RDP and SSH access without installing additional clients or agents
+- Supports devices that cannot run traditional RDP clients, such as Chromebooks
+- Avoids exposing target VMs directly to the public internet
+
+### Subnet Configuration
+
+- Azure Bastion SKUs other than Developer require a dedicated subnet in the virtual network (VNet):
+    - Subnet name: must be `AzureBastionSubnet`
+    - Minimum subnet size: `/26`
+    - The subnet cannot contain other resources
+- The VNet address space must have sufficient capacity for the Bastion subnet
+- Bastion Developer uses shared infrastructure and does not require `AzureBastionSubnet`
+
+### Connecting to Windows VMs
+
+- Azure Bastion provides RDP access to Windows VMs through the Azure portal
+- Authenticate by using the username and password configured for the VM
+- No additional client software is required
+
+### Connecting to Linux VMs
+
+- Azure Bastion provides SSH access to Linux VMs through the Azure portal
+- Supported authentication methods include:
+    - Username and password
+    - SSH private key
+- The SSH private key file can be provided when starting the connection
+
+### Exam Notes
+
+- Target VMs do not require public IP addresses
+- Most Bastion deployments require `AzureBastionSubnet`, but Bastion Developer does not
+- Most Bastion deployments require a Standard static public IP address, while Developer and private-only deployments do not
+
+## Azure Update Manager
+
+- Azure Update Manager: unified service for assessing update compliance and installing operating system updates on Windows and Linux machines
+- Supported machines include:
+    - Azure VMs
+    - On-premises and multicloud machines connected through Azure Arc
+- Update options include:
+    - Check for updates on demand
+    - Install one-time updates
+    - Schedule updates within a maintenance window
+    - Enable periodic assessment to check for updates every 24 hours
+    - Use automatic VM guest patching for Azure VMs
+- Update Manager honors each machine's configured update source, such as Windows Update, Microsoft Update, Windows Server Update Services (WSUS) or a Linux package repository
+- Update Manager has no dependency on Azure Automation or a Log Analytics workspace
+- Required update extensions are installed and managed automatically when an update operation first runs
+- Azure Automation Update Management and its Microsoft Monitoring Agent (MMA) dependency are retired legacy technologies
+
