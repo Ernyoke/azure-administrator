@@ -16,6 +16,7 @@
     - [Application Gateway](03-compute/application-gateway.md)
     - [Azure Disks](03-compute/azure-disks.md)
     - [Azure Virtual Machines](03-compute/vm.md)
+    - [Azure Disks](03-compute/azure-disks.md)
 5. Monitoring and Backup:
     - [Azure Monitor](04-monitoring-and-backup/azure-monitor.md)
     - [Azure Backup Service](04-monitoring-and-backup/azure-backup.md)

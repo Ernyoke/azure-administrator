@@ -22,6 +22,7 @@ Follow the exact style used in `00-security/entra-id.md`:
 
 ## Conventions
 
+- Use spaces for indentation in all repository files, never tabs
 - Do not restructure or reword existing notes unless asked
 - Do not add extra files (summaries, changelogs, indexes) beyond the notes and the `README.md` table of contents
 - Fix typos in existing notes only when explicitly requested
