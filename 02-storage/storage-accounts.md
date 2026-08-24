@@ -1,19 +1,19 @@
 # Storage Accounts
 
-- Azure Storage offers several types of storage accounts, each with different features and their pricing models
+- Azure Storage offers several types of storage accounts, each with different features and pricing models
 - Storage account types:
     - General purpose v1 (legacy)
     - General purpose v2
     - BlobStorage (legacy)
-    - BlockBlogStorage
+    - BlockBlobStorage
     - FileStorage
-- Storage type and Account Kind means the same thing in the Azure portal
+- Storage account type is shown as Account kind in the Azure portal
 
 ## Storage Account Comparison
 
 | Account type | Supported services | Performance tiers | Access tiers | Replication | Deployment models |
 | --- | --- | --- | --- | --- | --- |
-| General purpose v2 | Blob, Data Lake Storage, Files, Queue, Table | Standard, Premium | Hot, cool, cold, archive | LRS, ZRS, GRS, RA-GRS, GZRS, RA-GZRS | Resource Manager |
+| Standard general purpose v2 | Blob, Data Lake Storage, Files, Queue, Table | Standard | Hot, cool, cold, archive | LRS, ZRS, GRS, RA-GRS, GZRS, RA-GZRS | Resource Manager |
 | Premium block blobs | Block blobs, append blobs, Data Lake Storage | Premium | Not applicable | LRS, ZRS | Resource Manager |
 | Premium file shares | Files | Premium | Not applicable | LRS, ZRS | Resource Manager |
 | Premium page blobs | Page blobs | Premium | Not applicable | LRS, ZRS | Resource Manager |
@@ -58,13 +58,14 @@
         - Base performance: 120 IOPS and 25 MB/s
         - Maximum burst performance: 3,500 IOPS and 170 MB/s
     - P80 disk:
-        - Size: 32 TiB
+        - Size: 32,767 GiB
         - Base performance: 20,000 IOPS and 900 MB/s
-        - Maximum burst performance: 30,000 IOPS and 1,000 MB/s
+        - Maximum burst performance with on-demand bursting enabled: 30,000 IOPS and 1,000 MB/s
 
 ## Access Tiers (Blob Storage)
 
-- Standard Blob Storage has 4 access tiers: hot, cool, cold and archive
+- Blob Storage has 4 fixed access tiers: hot, cool, cold and archive
+- Smart tier automatically moves data between the hot, cool and cold tiers based on usage patterns
 - Access tiers apply to block blobs, not append blobs or page blobs
 - Hot, cool and cold are online tiers with immediate access
 - Archive is an offline tier that requires rehydration before data can be accessed
@@ -98,6 +99,8 @@
 
 - Data that is rarely accessed and stored for at least 180 days
 - Lowest storage cost and highest access cost
+- Supported only with LRS, GRS and RA-GRS redundancy
+- Not supported with ZRS, GZRS or RA-GZRS redundancy
 - Use cases:
     - Long-term backup, secondary backup and archival datasets
     - Original raw data that must be preserved after processing
@@ -143,4 +146,115 @@
     - Cold: 90 days
     - Archive: 180 days
 - Early deletion charges are prorated for the remaining minimum retention period
+
+## Replication and Data Redundancy
+
+- A replication type must be selected when creating a storage account
+- Replication stores multiple copies of data to protect against:
+    - Planned events
+    - Transient hardware failures
+    - Network or power outages
+    - Large-scale natural disasters
+- Higher redundancy levels have higher replication costs
+- Primary-region redundancy:
+    - Locally redundant storage (LRS)
+    - Zone-redundant storage (ZRS)
+- Secondary-region redundancy for disaster recovery and failover:
+    - Geo-redundant storage (GRS)
+    - Geo-zone-redundant storage (GZRS)
+- Secondary-region redundancy with read access to replicas:
+    - Read-access geo-redundant storage (RA-GRS)
+    - Read-access geo-zone-redundant storage (RA-GZRS)
+
+### Primary-Region Redundancy
+
+- Azure Storage always maintains multiple copies of data within the primary region
+- Primary-region replication is synchronous
+- Primary-region redundancy options:
+    - Locally redundant storage (LRS)
+    - Zone-redundant storage (ZRS)
+
+### Locally Redundant Storage
+
+- Replicates data within a single physical datacenter in the primary region
+- Replication is synchronous
+- Durability: at least 99.999999999% (11 nines) over a given year
+- Lowest-cost redundancy option
+- Protects against:
+    - Drive failure
+    - Server failure
+    - Rack failure
+- Does not protect against:
+    - Datacenter failure
+    - Zone-wide failure
+
+### Zone-Redundant Storage
+
+- Replicates data across three or more availability zones in the primary region
+- Replication is synchronous
+- Durability: at least 99.9999999999% (12 nines) over a given year
+- Protects against:
+    - Datacenter failure
+    - Availability zone failure
+- Costs more than LRS
+
+### LRS and ZRS Comparison
+
+- LRS:
+    - Single datacenter
+    - No zone-level resilience
+    - Lowest-cost option
+- ZRS:
+    - Three or more availability zones
+    - Higher availability
+
+### Exam Trap
+
+- LRS is not zone-resilient
+- ZRS, GZRS and RA-GZRS provide availability zone protection within the primary region
+
+### Secondary-Region Redundancy
+
+- Replicates data to a secondary region to protect against a primary-region disaster
+- The secondary region is determined by the primary region's Azure region pair and cannot be changed
+- With GRS and GZRS, the secondary region is not available for read or write access unless failover occurs
+- RA-GRS and RA-GZRS provide read access to the secondary region without requiring failover
+
+### Geo-Redundant Storage
+
+- Replicates data synchronously within the primary region by using LRS
+- Replicates data asynchronously from the primary region to the secondary region
+- Replicates data synchronously within the secondary region by using LRS
+- Durability: at least 99.99999999999999% (16 nines) over a given year
+
+### Geo-Zone-Redundant Storage
+
+- Replicates data synchronously across three or more availability zones in the primary region by using ZRS
+- Replicates data asynchronously from the primary region to the secondary region
+- Replicates data synchronously within the secondary region by using LRS
+- Durability: at least 99.99999999999999% (16 nines) over a given year
+
+### Secondary-Region Redundancy with Read Access
+
+- RA-GRS and RA-GZRS provide read-only access to data in the secondary region without requiring failover
+- Azure Files does not support RA-GRS or RA-GZRS
+- Replication within the primary region is synchronous
+- Replication from the primary region to the secondary region is asynchronous
+- The secondary copy can lag behind the primary copy
+
+### Read-Access Geo-Redundant Storage
+
+- Replicates data synchronously within the primary region by using LRS
+- Replicates data asynchronously from the primary region to the secondary region
+- Replicates data synchronously within the secondary region by using LRS
+- Provides read access to the secondary region
+- Durability: at least 99.99999999999999% (16 nines) over a given year
+
+### Read-Access Geo-Zone-Redundant Storage
+
+- Replicates data synchronously across three or more availability zones in the primary region by using ZRS
+- Replicates data asynchronously from the primary region to the secondary region
+- Replicates data synchronously within the secondary region by using LRS
+- Provides read access to the secondary region
+- Durability: at least 99.99999999999999% (16 nines) over a given year
 
