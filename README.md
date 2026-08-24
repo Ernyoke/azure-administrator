@@ -6,12 +6,15 @@
     - [Microsoft Entra ID](00-security-and-governance/entra-id.md)
     - [Azure AD - Device Management](00-security-and-governance/device-management.md)
     - [Azure Roles](00-security-and-governance/azure-roles.md)
+    - [Azure Policies](00-security-and-governance/azure-policies.md)
 2. Resource Management:
     - [Azure Resource Manager (ARM)](01-resouce-management/azure-resource-manager.md)
     - [ARM Templates](01-resouce-management/arm-templates.md)
 3. Storage:
     - [Storage Accounts](02-storage/storage-accounts.md)
 4. Compute:
+    - [Application Gateway](03-compute/application-gateway.md)
+    - [Azure Disks](03-compute/azure-disks.md)
     - [Azure Virtual Machines](03-compute/vm.md)
 5. Monitoring and Backup:
     - [Azure Monitor](04-monitoring-and-backup/azure-monitor.md)
