@@ -56,6 +56,26 @@
 - Azure supports cloud-init on enabled Linux images and virtual machine scale sets
 - The Azure Linux Agent is still required to process Azure VM extensions
 
+## Custom Script Extension
+
+- Custom Script Extension: downloads and runs scripts on Azure VMs for post-deployment configuration, software installation and management tasks
+- Supports Windows and Linux VMs and depends on the Azure VM agent
+- Scripts can be supplied at runtime or downloaded from an endpoint accessible to the VM, such as Azure Storage, GitHub or an internal file server
+- Can be deployed through the Azure portal, Azure CLI, Azure PowerShell, an ARM template or the Azure Virtual Machines REST API
+- Extension identifiers differ by operating system:
+    - Windows publisher and type: `Microsoft.Compute` and `CustomScriptExtension`
+    - Linux version 2 publisher and type: `Microsoft.Azure.Extensions` and `CustomScript`
+- `fileUris`: specifies files for the extension to download
+- `commandToExecute`: specifies the command or entry-point script to run
+- Public settings are sent to the VM in clear text, while protected settings are encrypted and decrypted only inside the VM
+- Secrets, storage keys and sensitive URLs must be placed in protected settings
+- The VM requires network access to any endpoint from which the extension downloads files
+- The extension runs a script only once and does not run it automatically at every VM startup
+- Change the configuration, such as the `timestamp` value, or use a force update tag to trigger another run
+- Only one version of an extension can be applied to a VM at a time
+- Scripts should be idempotent, must not require user input and have a 90-minute execution limit
+- Scripts should not restart the VM or stop or update the VM agent because the extension does not continue after a restart and can time out
+
 ## VM Sizes
 
 - Azure VMs are available in a variety of sizes optimized for specific use cases

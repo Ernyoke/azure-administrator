@@ -53,6 +53,17 @@
     - Other properties: resource-specific settings used to configure the resource
 - Reference: the resource declaration identifies the resource type, API version, name, location and configuration
 
+## ARM Template - Deployment Scripts
+
+- Deployment script: runs Azure CLI or Azure PowerShell operations during an ARM deployment by using `Microsoft.Resources/deploymentScripts`
+- Used for actions that ARM resources cannot express declaratively, such as data-plane operations
+- Azure creates an Azure Container Instance (ACI) and storage account to run the script and store its results
+- Scripts can be inline or external and can return outputs to the template
+- Only user-assigned managed identities are supported for authenticating the script to Azure
+- Redeploying an unchanged deployment script does not execute it again
+- Change `forceUpdateTag` to force another execution
+- `cleanupPreference`: deletes supporting resources `Always`, `OnSuccess` or `OnExpiration`
+
 ## ARM Template - Parameters
 
 - Parameters: values passed into an ARM template at deployment time
