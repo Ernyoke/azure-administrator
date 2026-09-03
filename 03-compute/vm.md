@@ -22,6 +22,22 @@
 - A single VM instance has a 99.9% availability Service Level Agreement (SLA) when all attached OS and data disks use Premium SSD or Ultra Disk storage
 - Two or more VM instances deployed in an availability set provide a 99.95% availability SLA
 
+## Availability Sets
+
+- Availability set: logical grouping that distributes VMs across separate fault domains and update domains within a datacenter
+- Fault domain: group of VMs that share a common power source and network switch
+    - Azure supports up to three fault domains per availability set, depending on the region
+    - VMs in different fault domains reduce the impact of hardware, power and network failures
+- Update domain: logical group of VMs that can undergo planned maintenance and restart together
+    - An availability set supports up to 20 update domains
+    - Azure processes update domains one at a time during planned maintenance
+- Azure automatically assigns each VM to a fault domain and an update domain
+- Deploy at least two VMs in an availability set to qualify for the 99.95% SLA
+- Availability sets provide redundancy within a datacenter, while availability zones provide redundancy across separate datacenters in a region
+- A VM can be assigned to an availability set only when the VM is created
+- Availability sets have no additional charge, but each VM and its associated resources are billed
+- Use managed disks so disks attached to VMs are aligned with the VMs' fault domains
+
 ## Networking Components
 
 - Launching an Azure VM creates or associates the networking components required by the VM
