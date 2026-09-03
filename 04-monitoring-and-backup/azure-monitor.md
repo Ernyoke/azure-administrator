@@ -65,7 +65,7 @@
     - Resource Logs:
         - Resource logs provide insights into the internal operation of an Azure resource
         - Resource logs are created automatically
-        - We must create a diagnostic setting to specify a destination for them to collected for each resource
+        - We must create a diagnostic setting on each resource to specify a destination for them to be collected
     - Platform metrics will write to the Azure Monitor metrics database with no configuration
     - Access platform metrics from Metrics Explorer
     - Trending and other analysis using Log Analytics
@@ -74,11 +74,12 @@
         - Send resource logs to Azure Storage for archiving
         - Stream metrics to other locations using Event Hubs
 - Azure Subscriptions:
-    - Telemetry related to the health and operation of our Azure subscriptuion
+    - Telemetry related to the health and operation of our Azure subscription
+    - Azure Activity log: subscription-level log of control plane operations, service health events and autoscale events
     - Azure Service Health: provides information about the health of Azure services in our subscription that our applications and resources rely on
 - Tenants:
-    - Telemetry related to your Azure tenant is collected from tenant-wide services such as Azure Active Directory
-    - Azure Active Directory reporting contains the history of sign-in activity and audit trail of changes made within a particular tenant
+    - Telemetry related to our Azure tenant is collected from tenant-wide services such as Microsoft Entra ID
+    - Microsoft Entra ID reporting contains the history of sign-in activity and an audit trail of changes made within a particular tenant
 - Custom sources:
     - We may need to monitor other resources that have telemetry that can't be collected with the other data sources
     - For these resources, we can write this data to either Metrics or Logs using an Azure Monitor API
@@ -93,6 +94,8 @@
     - Usage and performance data from applications
 - Data from these sources can be analyzed together using a sophisticated query language capable of analyzing millions of records
 - Log Analytics provides interactive access to log queries and their results
+- Logs are stored as sets of records in tables, each table having its own schema
+- Logs are not suited to near real-time alerting because of ingestion latency, typically a few minutes
 
 ## Azure Monitor Metrics
 
@@ -100,17 +103,194 @@
 - Metrics are numerical values collected at regular intervals that describe an aspect of a system at a particular time
 - Metrics are lightweight and support near real-time scenarios, making them useful for alerting and fast issue detection
 - Metrics Explorer provides interactive metrics analysis
+- Platform metrics are collected automatically for Azure resources with no configuration required
+- Platform metrics are retained for 93 days
+- Metrics are stored at one-minute granularity by default and are aggregated over the selected time grain
+- Aggregation types are: average, minimum, maximum, sum and count
+- Dimensions are name-value pairs that allow filtering and splitting a metric, such as splitting network traffic by port
+- Guest OS metrics such as memory and disk space require an agent, they are not collected by the host platform
+- Metric alerts evaluate metrics without needing a Log Analytics workspace
+
+## Metrics Explorer
+
+- Tool in the Azure portal used to plot charts from platform and custom metrics
+- Steps to create a chart:
+    - Select a scope, one or more resources of the same type
+    - Select a metric namespace, such as the guest OS namespace for VMs
+    - Select a metric and its aggregation
+    - Optionally apply filters and splitting on dimensions
+- Charts can be pinned to an Azure dashboard or shared as a workbook
+- A new alert rule can be created directly from a chart
 
 ## Log Analytics
 
 - Log Analytics is a tool in the Azure portal used to edit and run log queries with data in Azure Monitor Logs
 - Log Analytics uses a query language called KQL
+- Queries can be saved, pinned to dashboards, exported to Power BI or Excel, and used to create log alert rules
+- The scope of a query determines the data searched, either a workspace or a specific resource
 
 ## Log Analytics Workspaces
 
 - A Log Analytics workspace is a unique environment for Azure Monitor log data
 - Each workspace has its own data repository and configuration
 - Data sources and solutions are configured to store their data in a particular workspace
+- A workspace is an Azure resource in a resource group and a region, data is stored in the workspace region
+- A single subscription can contain multiple workspaces, and a single workspace can receive data from resources in other subscriptions and regions
+- Reasons to use multiple workspaces:
+    - Data sovereignty requirements to keep data in a specific region
+    - Splitting billing between departments or subsidiaries
+    - Isolating access between separate teams
+- Default retention is 30 days, or 90 days when Microsoft Sentinel or Application Insights is enabled
+- Interactive retention can be increased up to 730 days, and long-term retention up to 12 years
+- Retention can be configured per workspace and overridden per table
+- Pricing models:
+    - Pay-as-you-go: billed per GB ingested
+    - Commitment tiers: fixed daily volume at a discount, starting at 100 GB per day
+- A daily cap can be set to limit ingestion and control cost, data is dropped once the cap is reached
+- Access control modes:
+    - Require workspace permissions: only workspace-level permissions grant access, also called workspace-context
+    - Use resource or workspace permissions: users with read access to a resource can see its data, also called resource-context
+- Built-in roles:
+    - Log Analytics Reader: view and search all monitoring data and view monitoring settings
+    - Log Analytics Contributor: includes Reader plus the ability to create and configure workspaces, agents and data collection rules
+    - Monitoring Reader: read all monitoring data across Azure Monitor
+    - Monitoring Contributor: read all monitoring data and edit monitoring settings
+
+## Diagnostic Settings
+
+- A diagnostic setting defines where platform logs and platform metrics for a resource are sent
+- Platform logs and metrics are not stored long term unless a diagnostic setting is created
+- Destinations:
+    - Log Analytics workspace: analysis with KQL, alerts and correlation with other data
+    - Azure Storage account: cheap long-term archiving and audit retention
+    - Azure Event Hubs: streaming to third-party SIEM or external tools
+    - Azure Monitor partner solutions
+- Each resource supports up to five diagnostic settings
+- The Activity log has its own diagnostic setting at the subscription level to export it to a workspace, storage or event hub
+- Diagnostic settings can be deployed at scale using Azure Policy with `DeployIfNotExists` effects
+
+## Activity Log
+
+- Subscription-level log that records control plane operations performed on resources
+- Answers what happened, who performed the operation, and when
+- Retained for 90 days by default, and free of charge
+- To keep entries longer than 90 days, export them with a diagnostic setting
+- Categories:
+    - Administrative: create, update, delete and action operations sent through Azure Resource Manager, including RBAC changes
+    - Service Health: incidents, planned maintenance and health advisories for Azure services
+    - Resource Health: health changes of individual Azure resources
+    - Alert: activations of Azure alerts
+    - Autoscale: operations of autoscale engine rules
+    - Recommendation: recommendations from Azure Advisor
+    - Security: alerts generated by Microsoft Defender for Cloud
+    - Policy: results of Azure Policy effects such as audit and deny
+- The Activity log does not include read (GET) operations or operations performed inside the guest OS
+- When exported to a workspace, entries are stored in the `AzureActivity` table
+
+## Azure Monitor Agent and Data Collection Rules
+
+- Azure Monitor Agent (AMA) collects guest OS logs and performance data from Windows and Linux machines
+- Supported on Azure VMs, virtual machine scale sets, and on-premises or other cloud servers through Azure Arc
+- Installed as a VM extension and can be deployed at scale with Azure Policy
+- Requires a system-assigned or user-assigned managed identity on the machine
+- Data Collection Rule (DCR): an Azure resource that defines what data to collect, how to transform it, and where to send it
+- A single machine can be associated with multiple DCRs, and a DCR can target many machines
+- Data Collection Endpoint (DCE): used when machines connect over a private network or Azure Private Link
+- AMA can send the same data to multiple workspaces, which the legacy Log Analytics agent could not do reliably
+
+## Insights
+
+- VM insights:
+    - Monitors performance and health of VMs and scale sets
+    - Uses Azure Monitor Agent and the Dependency agent for the map feature
+    - The map feature shows running processes and dependencies on other machines
+- Container insights: monitors AKS and container workloads, collecting performance and container logs
+- Storage insights, Network insights and Application Insights provide equivalent service-specific views
+- Application Insights:
+    - Application performance monitoring (APM) for web applications
+    - Collects requests, dependencies, exceptions, traces, page views and custom events
+    - Workspace-based Application Insights stores its data in a Log Analytics workspace
+    - Availability tests check responsiveness of an endpoint from multiple global locations
+    - The Application Map shows components and their dependencies with failure and latency data
+
+## Visualizations
+
+- Workbooks: interactive reports combining text, log queries, metrics and parameters
+- Azure dashboards: pin charts, query results and other tiles into a single shared view in the portal
+- Power BI: business analytics over exported Azure Monitor data
+- Grafana: supported through the Azure Monitor data source and Azure Managed Grafana
+
+## Alerts
+
+- Alerts proactively notify us when an important condition is found in monitoring data
+- Components of an alert rule:
+    - Scope: the target resource being monitored
+    - Condition: the signal and the logic that determines if the alert fires
+    - Actions: the action group invoked when the alert fires
+    - Details: name, description and severity
+- Severity levels:
+    - Sev 0: critical
+    - Sev 1: error
+    - Sev 2: warning
+    - Sev 3: informational
+    - Sev 4: verbose
+- Alert rule types:
+    - Metric alerts:
+        - Evaluate platform, custom or guest OS metrics at regular intervals
+        - Stateful, they automatically resolve when the condition clears
+        - Support static thresholds and dynamic thresholds based on machine learning of historical behaviour
+        - Support multi-resource rules across VMs in the same region and subscription
+    - Log alerts:
+        - Run a saved KQL query on a schedule against a workspace or resource
+        - Types are number of results and metric measurement
+        - Higher latency than metric alerts because they depend on log ingestion
+    - Activity log alerts:
+        - Fire on new Activity log events, such as a VM being deleted
+        - Service Health alerts are a special type of Activity log alert
+    - Resource Health alerts: fire on health transitions of a specific resource
+    - Smart detection alerts: automatic detection of anomalies in Application Insights
+- Alert states are New, Acknowledged and Closed, and are independent of the underlying condition state
+- Alert processing rules can suppress notifications during planned maintenance windows or add action groups at scale
+
+## Action Groups
+
+- An action group is a reusable collection of notification preferences and actions triggered by an alert
+- Action groups are a global resource and can be shared by many alert rules
+- Notification types:
+    - Email, including email to an Azure Resource Manager role such as Owner or Contributor
+    - SMS
+    - Push notification to the Azure mobile app
+    - Voice call
+- Action types:
+    - Automation runbook
+    - Azure Function
+    - Webhook and secure webhook
+    - Logic App
+    - ITSM connector
+    - Event hub
+- Rate limiting applies to notifications, for example no more than one SMS every five minutes and one email every hour per action group
+
+## Autoscale
+
+- Azure Monitor autoscale adds or removes instances based on metrics or a schedule
+- Applies to virtual machine scale sets, App Service plans, Azure Spring Apps and Cloud Services
+- An autoscale setting contains profiles, and each profile contains rules and instance limits of minimum, maximum and default
+- Rule elements are a metric source, a time grain and aggregation, a threshold, an operator, an action and a cool-down period
+- The cool-down period prevents rapid repeated scaling, known as flapping
+- Scale-out rules are evaluated with OR logic and scale-in rules with AND logic when multiple rules exist
+- Autoscale operations are recorded in the Activity log
+
+## Common Log Analytics Tables
+
+- `Heartbeat`: agent connectivity records, used to confirm an agent is reporting
+- `Perf`: performance counters collected from Windows and Linux machines
+- `Event`: Windows event log records
+- `Syslog`: Linux syslog records
+- `AzureActivity`: exported Azure Activity log entries
+- `AzureDiagnostics` and resource-specific tables: resource logs sent by diagnostic settings
+- `InsightsMetrics`: performance data collected by VM insights and Container insights
+- `AzureMetrics`: platform metrics routed to a workspace
+- `SigninLogs` and `AuditLogs`: Microsoft Entra ID sign-in and audit data
 
 ## Kusto
 
@@ -164,17 +344,17 @@
 
 ### Kusto Control Commands
 
-- Control commands can modify data and metadata and has its own syntax different from KQL
+- Control commands can modify data and metadata and have their own syntax different from KQL
 - The following control command creates a new Kusto table with two columns
 
 ```
 .create table Logs (Level:string, Text:string)
 ```
 
-- A very common control command is `.show` for example, this will count all tables:
+- A very common control command is `.show`, for example this will count all tables:
 
 ```
-.show table
+.show tables
 | count
 ```
 
