@@ -12,10 +12,13 @@
     - [ARM Templates](01-resouce-management/arm-templates.md)
 3. Storage:
     - [Storage Accounts](02-storage/storage-accounts.md)
+    - [Azure Blob Storage](02-storage/azure-blobs.md)
 4. Compute:
+    - [Azure AppService](03-compute/app-service.md)
     - [Application Gateway](03-compute/application-gateway.md)
     - [Azure Disks](03-compute/azure-disks.md)
     - [Azure Virtual Machines](03-compute/vm.md)
+    - [Scale Sets](03-compute/scale-sets.md)
     - [Azure Disks](03-compute/azure-disks.md)
 5. Monitoring and Backup:
     - [Azure Monitor](04-monitoring-and-backup/azure-monitor.md)
@@ -26,3 +29,5 @@
 7. Networking:
     - [Azure DNS](06-networking/azure-dns.md)
     - [Azure Firewall](06-networking/azure-firewall.md)
+    - [Azure ExpressRoute](06-networking/expressroute.md)
+    - [Virtual Network](06-networking/vnet.md)

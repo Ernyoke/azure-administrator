@@ -26,3 +26,7 @@ Follow the exact style used in `00-security/entra-id.md`:
 - Do not restructure or reword existing notes unless asked
 - Do not add extra files (summaries, changelogs, indexes) beyond the notes and the `README.md` table of contents
 - Fix typos in existing notes only when explicitly requested
+
+## Validations
+
+- Do not overly attemp to verify over and over again that text is being added/appended to a file. Every harness is capable enough to append/add a text to a text file
