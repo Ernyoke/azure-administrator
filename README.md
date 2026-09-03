@@ -13,6 +13,7 @@
 3. Storage:
     - [Storage Accounts](02-storage/storage-accounts.md)
     - [Azure Blob Storage](02-storage/azure-blobs.md)
+    - [Azure Files](02-storage/azure-files.md)
 4. Compute:
     - [Azure AppService](03-compute/app-service.md)
     - [Application Gateway](03-compute/application-gateway.md)
