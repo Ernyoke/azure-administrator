@@ -30,4 +30,5 @@
     - [Azure DNS](06-networking/azure-dns.md)
     - [Azure Firewall](06-networking/azure-firewall.md)
     - [Azure ExpressRoute](06-networking/expressroute.md)
+    - [Azure Network Watcher](06-networking/network-watcher.md)
     - [Virtual Network](06-networking/vnet.md)
