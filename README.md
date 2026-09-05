@@ -27,8 +27,10 @@
 6. Containers:
     - [Azure Container Instances (ACI)](05-containers/aci.md)
 7. Networking:
+    - [Azure API Management (API Gateway)](06-networking/azure-api-management.md)
     - [Azure DNS](06-networking/azure-dns.md)
     - [Azure Firewall](06-networking/azure-firewall.md)
     - [Azure ExpressRoute](06-networking/expressroute.md)
+    - [Azure Load Balancer](06-networking/azure-load-balancer.md)
     - [Azure Network Watcher](06-networking/network-watcher.md)
     - [Virtual Network](06-networking/vnet.md)
