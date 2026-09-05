@@ -10,6 +10,7 @@
 2. Resource Management:
     - [Azure Resource Manager (ARM)](01-resouce-management/azure-resource-manager.md)
     - [ARM Templates](01-resouce-management/arm-templates.md)
+    - [Bicep](01-resouce-management/bicep.md)
 3. Storage:
     - [Storage Accounts](02-storage/storage-accounts.md)
     - [Azure Blob Storage](02-storage/azure-blobs.md)

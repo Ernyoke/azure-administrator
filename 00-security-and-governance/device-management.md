@@ -59,9 +59,9 @@
     - Microsoft 365 Government G5
     - Microsoft 365 Government G3
     - Intune for Education
-- Microsoft Intune is part of Microsoft Endpoint Manager
-- Microsoft Endpoint Manager and Intune are part of Microsoft Enterprise Mobility + Security (EMS)
-- Intune = Endpoint Manager = EMS
+- Microsoft Intune is a cloud-based endpoint management service
+- Microsoft Endpoint Manager was an umbrella brand for Microsoft Intune and Configuration Manager
+- Microsoft Enterprise Mobility + Security (EMS) is a licensing suite that includes Microsoft Intune and Microsoft Entra ID
 
 ### EMS
 
@@ -106,7 +106,8 @@
     - FIDO Universal Authentication Framework (FIDO UAF)
     - Client to Authenticate Protocols (CTAP)
         - CTAP is complementary to the W3C's Web Authentication (WebAuthn) specification; together they are known as FIDO2
-- A security key is q secondary device used as second step in authentication process to gain access to a device, workstation or application
+- FIDO2 security keys support passwordless, phishing-resistant authentication using public key cryptography
+- A security key combined with a PIN or biometric can satisfy multifactor authentication without a password
 
 ## Hybrid Azure AD Joined Devices
 
@@ -128,7 +129,7 @@
         - IT-managed domain join
         - Windows Autopilot (Hybrid Join scenario)
 - Device sign-in options
-    - Users sign in with Microsoft Entra ID organizational accounts using:
+    - Users sign in with on-premises Active Directory domain accounts using:
         - Password
         - Windows Hello for Business
         - FIDO2 security keys
@@ -166,18 +167,27 @@
     - All: any user can join devices
     - Selected: only members of selected groups can join devices
     - None: users cannot join devices
-- Maximum number of devices per user limits how many devices a user can register or join
+- Users may register their devices with Microsoft Entra ID is a separate setting from join permissions:
+    - All: users can register devices
+    - None: users cannot register devices
+    - Configuring Microsoft Intune enrollment requires All and makes None unavailable
+- Conditional Access can require multifactor authentication for the Register or join devices user action
+- Maximum number of devices per user limits how many devices a user can register or join:
+    - Default: 50 devices per user
+    - Configurable up to 100 devices or Unlimited
+    - Does not apply to Microsoft Entra hybrid joined devices
 - Additional local administrators on Microsoft Entra joined devices can be selected globally
 - Global Administrators and the user who performs the join become local administrators by default
 
 ## Intune Enrollment
 
 - Automatic MDM enrollment can enroll Microsoft Entra joined devices into Intune
+- Automatic MDM enrollment requires an Intune subscription and Microsoft Entra ID P1 or P2
 - MDM user scope determines which users are automatically enrolled:
     - None
     - Some
     - All
-- MAM user scope applies app protection policies without requiring full device enrollment
+- Intune app protection policies are assigned to user groups and can protect supported apps without device enrollment
 - Enrollment restrictions can control:
     - Supported device platforms
     - Personally owned devices
@@ -229,7 +239,9 @@
 - Cloud Device Administrator can enable, disable and delete devices in Microsoft Entra ID
 - Intune Administrator can manage devices, enrollment and compliance in Intune
 - Disabling a device prevents it from authenticating with Microsoft Entra ID but keeps the device object
-- Deleting a device removes its Microsoft Entra identity and should be used for retired, lost or stale devices
+- For lost or stolen devices, disable the device first rather than immediately deleting its identity
+- Deleting a device is nonrecoverable and removes its Microsoft Entra identity and attached details, including stored BitLocker recovery keys
+- Retire or wipe Intune-managed devices before deleting their Microsoft Entra identity
 - Revoking a user's refresh tokens forces reauthentication but does not delete the device
 - BitLocker recovery keys for eligible devices can be stored in Microsoft Entra ID and retrieved by authorized users or administrators
 
