@@ -34,4 +34,5 @@
     - [Azure ExpressRoute](06-networking/expressroute.md)
     - [Azure Load Balancer](06-networking/azure-load-balancer.md)
     - [Azure Network Watcher](06-networking/network-watcher.md)
+    - [Azure Virtual WAN](06-networking/wan.md)
     - [Virtual Network](06-networking/vnet.md)
