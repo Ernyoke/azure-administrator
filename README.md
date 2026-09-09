@@ -36,3 +36,4 @@
     - [Azure Network Watcher](06-networking/network-watcher.md)
     - [Azure Virtual WAN](06-networking/wan.md)
     - [Virtual Network](06-networking/vnet.md)
+    - [Virtual Network Gateways](06-networking/virtual-gateway.md)
