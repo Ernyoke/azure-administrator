@@ -50,3 +50,18 @@
 - AuditIfNotExists: audits a resource when a related resource or property does not exist
 - DeployIfNotExists: deploys a resource when a specified condition is met, such as configuring encryption after a database is created
 - Disabled: ignores the policy rule and is often used for testing
+
+## Assignment and Remediation
+
+- Assign a policy or initiative to a management group, subscription, resource group or resource, not to a user
+- Assignments apply to child scopes unless excluded or exempted
+- Policy enforcement depends on the effect: Audit observes, while Deny blocks non-compliant create and update requests
+- Existing non-compliant resources are not deleted by a Deny assignment
+- Modify: adds, updates or removes supported properties, such as a cost center tag
+- Modify and DeployIfNotExists assignments need a managed identity with the permissions required for remediation
+- A remediation task applies Modify or DeployIfNotExists to existing non-compliant resources
+- Assigning a remediation policy does not automatically repair all existing resources
+- Exclusion: removes a scope from evaluation for that assignment
+- Exemption: records a waiver or mitigation for an in-scope resource and can have an expiration date
+- `DoNotEnforce`: evaluates compliance without enforcing the policy effect
+- Definition location limits assignment scope: a definition must be available at the assignment scope or a parent scope

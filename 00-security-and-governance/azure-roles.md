@@ -110,3 +110,16 @@
     - Receiving an explicit Azure role assignment, such as Owner or User Access Administrator, at an appropriate scope
     - Elevating access, which assigns User Access Administrator at root scope (`/`) and enables management of access to all Azure subscriptions and management groups in the tenant
 - Elevated access should be removed after the required access changes are complete
+
+## Interpret Effective Access
+
+- Scope hierarchy: management group, subscription, resource group, resource
+- Role assignments inherit down the hierarchy, not upward or sideways
+- Allowed permissions are combined across direct assignments and group memberships
+- Assigning Reader at resource scope does not reduce Contributor inherited from the subscription
+- Removing a direct assignment does not remove access inherited from a parent scope or group
+- A matching deny assignment can block an operation that a role otherwise allows
+- Use Access control (IAM), Check access to inspect assignments for a specific principal
+- Control-plane roles do not automatically grant data-plane access, such as permission to read blob contents
+- Creating role assignments requires `Microsoft.Authorization/roleAssignments/write`, available in roles such as Owner and Role Based Access Control Administrator
+- Prefer the narrowest scope and least-privileged role that supports the required task

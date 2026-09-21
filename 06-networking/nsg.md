@@ -56,3 +56,27 @@
     - Rule changes affect new connections
     - Existing flows are interrupted after the connection stops and remains idle in both directions for at least a few minutes
 
+## Effective Security Rules
+
+- A subnet or NIC can have one NSG associated with it; an NSG can be reused across multiple supported associations
+- When both subnet and NIC NSGs apply, traffic must be allowed by both
+- Inbound evaluation order: subnet NSG, then NIC NSG
+- Outbound evaluation order: NIC NSG, then subnet NSG
+- Rule priorities are evaluated within each NSG, not as a single merged priority list
+- An Allow at priority 100 on the NIC does not override a Deny on the subnet NSG
+- Use the NIC's Effective security rules view to inspect the combined applied rules
+- Network Watcher IP flow verify identifies the rule allowing or denying a specified flow
+- NSGs do not inspect HTTP paths or provide domain-based application filtering
+
+## Application Security Groups and Service Tags
+
+- Application security group (ASG): logical grouping of VM network interfaces used as a rule source or destination
+- ASGs let rules refer to application tiers rather than maintaining individual IP addresses
+- Example: allow TCP port 1433 from a web-tier ASG to a database-tier ASG
+- NICs in an ASG must belong to the same virtual network
+- When a rule references source and destination ASGs, both groups must be in the same virtual network
+- An ASG does not enforce rules by itself; reference it from an NSG rule
+- Service tag: Microsoft-managed collection of address prefixes representing a service or network category
+- The VirtualNetwork service tag can include peered and connected network prefixes, not just the local subnet
+- The AzureLoadBalancer service tag permits health probe traffic, not all client traffic through a load balancer
+

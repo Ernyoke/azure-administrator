@@ -258,3 +258,79 @@
 - Provides read access to the secondary region
 - Durability: at least 99.99999999999999% (16 nines) over a given year
 
+## Create and Configure an Account
+
+- Account names must be globally unique, 3 to 24 characters long and contain only lowercase letters and numbers
+- Select the region, performance, account kind and redundancy to match the required services
+- Configure network access, secure transfer, minimum TLS (Transport Layer Security) version and data protection before uploading data
+- Enable a hierarchical namespace for Azure Data Lake Storage Gen2 workloads; check feature compatibility before enabling it
+- Redundancy protects against infrastructure failures, not accidental deletion or malicious changes replicated to other copies
+- Geo-replication is asynchronous; an unplanned failover can lose writes that have not reached the secondary region
+- Check Last Sync Time when assessing potential data loss before an account failover
+
+## Storage Firewalls and Private Access
+
+- Storage firewall rules restrict access to the public endpoint, independently of data authorization
+- With selected networks enabled, allow the required public IP ranges or virtual network subnets
+- A virtual network rule normally requires an appropriate Microsoft.Storage service endpoint on the allowed subnet
+- A service endpoint keeps the storage service's public endpoint; it does not allocate a private endpoint IP
+- A private endpoint gives a storage service a private IP reachable through a virtual network
+- Create separate private endpoints for required storage subresources, such as blob and file
+- Configure private DNS so clients resolve the normal storage hostname to the private endpoint
+- Creating a private endpoint does not automatically disable the public endpoint
+- A valid account key or shared access signature (SAS) does not bypass storage firewall rules
+- The trusted Azure services exception applies only to supported services and is not unrestricted access for all Azure workloads
+
+## Access Keys and Identity
+
+- Microsoft Entra authorization with data-plane roles is preferred where supported
+- Storage Blob Data Reader: read blob data
+- Storage Blob Data Contributor: read, write and delete blob data
+- Each storage account has two access keys that provide broad Shared Key access
+- Rotate keys without interrupting applications:
+    - Move clients to the second key
+    - Regenerate the first key and update clients to use it
+    - Regenerate the second key after no clients depend on it
+- Regenerating a key invalidates service and account SAS tokens signed with that key
+- Disallowing Shared Key authorization blocks account-key access and key-signed SAS for services that honor the setting
+
+## Shared Access Signatures
+
+- Shared access signature (SAS): signed token granting limited access to storage resources
+- Restrict permissions, resource scope, expiry, protocol and optionally source IP addresses
+- SAS types:
+    - User delegation SAS: signed with a key obtained using Microsoft Entra credentials, supported for Blob Storage and Data Lake Storage Gen2
+    - Service SAS: signed with an account key and scoped to resources in one storage service
+    - Account SAS: signed with an account key and can cover multiple storage services and service-level operations
+- Prefer a user delegation SAS for blob access when SAS-based delegation is required
+- A stored access policy centralizes permissions and validity times for service SAS tokens that reference it
+- Stored access policies are supported on blob containers, file shares, queues and tables, with up to five per resource
+- Account SAS and user delegation SAS cannot reference a stored access policy
+- Revoke a policy-linked service SAS by deleting its policy, expiring it or changing its permissions
+- An ad hoc key-signed SAS cannot be individually revoked through a stored access policy
+- Keep tokens secret and use short validity periods; a recipient can use the token without signing in
+
+## Storage Encryption
+
+- Azure Storage encrypts data at rest automatically using 256-bit AES (Advanced Encryption Standard)
+- Microsoft-managed keys are the default
+- Customer-managed keys are stored in Azure Key Vault or Managed HSM (Hardware Security Module)
+- Configure a storage account managed identity with permission to use the encryption key
+- Key Vault soft delete and purge protection are required for customer-managed keys
+- Disabling or losing access to a required key can make encrypted data unavailable
+- Encryption scopes allow different encryption settings within a storage account, including at container or blob level
+- Infrastructure encryption adds a second encryption layer when enabled on a supported account
+- Secure transfer required protects supported traffic in transit; it is separate from encryption at rest
+
+## Storage Explorer and AzCopy
+
+- Azure Storage Explorer: graphical tool to browse, upload, download and manage storage data
+- Connect using a Microsoft Entra account or supported connection methods such as a SAS
+- AzCopy: command-line utility for high-throughput transfers to and from Blob Storage and Azure Files
+- `azcopy login`: authenticate with Microsoft Entra ID for supported operations
+- `azcopy copy '<source>' '<destination>' --recursive`: copy a directory or container hierarchy
+- `azcopy sync '<source>' '<destination>' --recursive`: synchronize supported sources and destinations
+- `--delete-destination=true` can remove destination data absent from the source; use only when that behavior is intended
+- A data transfer requires both network reachability and suitable data-plane permissions
+- Use AzCopy job status and logs to diagnose failed transfers and resume supported interrupted jobs
+

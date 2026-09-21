@@ -11,6 +11,7 @@
     - [Azure Resource Manager (ARM)](01-resouce-management/azure-resource-manager.md)
     - [ARM Templates](01-resouce-management/arm-templates.md)
     - [Bicep](01-resouce-management/bicep.md)
+    - [Azure CLI and Azure PowerShell](01-resouce-management/azure-cli-and-powershell.md)
 3. Storage:
     - [Storage Accounts](02-storage/storage-accounts.md)
     - [Azure Blob Storage](02-storage/azure-blobs.md)
@@ -27,6 +28,8 @@
     - [Azure Site Recovery](04-monitoring-and-backup/azure-site-recovery.md)
 6. Containers:
     - [Azure Container Instances (ACI)](05-containers/aci.md)
+    - [Azure Container Registry (ACR)](05-containers/azure-container-registry.md)
+    - [Azure Container Apps](05-containers/azure-container-apps.md)
 7. Networking:
     - [Azure API Management (API Gateway)](06-networking/azure-api-management.md)
     - [Azure DNS](06-networking/azure-dns.md)
@@ -34,6 +37,7 @@
     - [Azure ExpressRoute](06-networking/expressroute.md)
     - [Azure Load Balancer](06-networking/azure-load-balancer.md)
     - [Azure Network Watcher](06-networking/network-watcher.md)
+    - [Network Security Groups (NSGs)](06-networking/nsg.md)
     - [Azure Virtual WAN](06-networking/wan.md)
     - [Virtual Network](06-networking/vnet.md)
     - [Virtual Network Gateways](06-networking/virtual-gateway.md)

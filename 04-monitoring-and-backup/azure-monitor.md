@@ -213,6 +213,17 @@
     - Availability tests check responsiveness of an endpoint from multiple global locations
     - The Application Map shows components and their dependencies with failure and latency data
 
+## Interpret Resource Insights
+
+- VM insights: enable the monitoring configuration, then compare CPU, available memory, disk performance and network trends
+- Host CPU metrics can exist while guest memory metrics are absent; verify the agent and associated data collection rules
+- Storage insights: compare availability, transactions, latency, capacity and response types across storage accounts
+- High end-to-end storage latency with lower server latency can indicate client or network overhead
+- Filter storage failures by response type and operation rather than assuming all failed requests are service outages
+- Network insights: inspect resource health, topology and connectivity metrics, then use Network Watcher for targeted diagnostics
+- A chart with no data can indicate the wrong scope, time range, metric dimension or missing data collection
+- Choose metric aggregation deliberately: an average can hide short spikes that a maximum reveals
+
 ## Visualizations
 
 - Workbooks: interactive reports combining text, log queries, metrics and parameters
@@ -251,6 +262,18 @@
     - Smart detection alerts: automatic detection of anomalies in Application Insights
 - Alert states are New, Acknowledged and Closed, and are independent of the underlying condition state
 - Alert processing rules can suppress notifications during planned maintenance windows or add action groups at scale
+
+## Alert Processing Rules
+
+- Alert rule: defines when a monitored condition produces an alert
+- Action group: defines recipients and automated actions
+- Alert processing rule: changes action group behavior for matching fired alerts without changing the detection condition
+- Scope processing rules to subscriptions, resource groups or resources and filter by properties such as severity or alert rule
+- Apply an action group centrally or suppress action groups during a scheduled maintenance window
+- Suppression does not stop the alert from being generated or appearing in alert history
+- Schedules can be always active, one-time or recurring
+- When matching processing rules conflict, suppression takes precedence over adding action groups
+- Test notification delivery and action execution separately from testing the alert condition
 
 ## Action Groups
 

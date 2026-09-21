@@ -130,3 +130,46 @@
     - We cannot move App Service Environments to a new resource group or subscription. We can recreate the environment and use backup and restore feature
     - We cannot move apps with private endpoints and with virtual network integration
     - We can only move App Service resources from the resource group where we originally created them
+
+## Subscription and Resource Group Administration
+
+- A management group can contain subscriptions and child management groups, but not individual resource groups
+- Each subscription or management group has one parent, except the tenant root group
+- Management group hierarchies support six levels below the root, excluding the root and subscriptions
+- A resource belongs to one resource group at a time
+- Resources in a resource group can reside in different regions; the group's location stores its metadata
+- Deleting a resource group deletes its resources unless locks or other restrictions block the operation
+- Moving a resource between resource groups or subscriptions does not change its region
+- Cross-subscription resource moves require source and destination subscriptions in the same Microsoft Entra tenant
+- Before a move, check supported resource types, dependencies, destination provider registration and quotas
+- Resource IDs change after a move; update scripts and references that use the old IDs
+- Resource-scoped role assignments do not move with a resource and must be recreated
+- Quotas are often regional and subscription-specific; check both total regional vCPU and VM-family quotas before deploying
+
+## Tag and Lock Behavior
+
+- Tags applied to a subscription or resource group are not automatically inherited by resources
+- Use Azure Policy with a Modify effect to apply or inherit tags and remediate existing resources
+- Tags are not supported by every resource type and should not contain secrets
+- Locks inherit from parent scopes; the most restrictive applicable lock takes precedence
+- Locks apply to control-plane operations, not data-plane operations such as deleting a blob
+- Even an Owner must remove an applicable lock before performing the blocked operation
+- A ReadOnly lock can block operations that use POST, such as listing storage account access keys
+- A delete lock on a child resource can prevent deletion of its entire resource group
+
+## Cost Management and Azure Advisor
+
+- Cost analysis: filter and group spending by subscription, resource group, service, location or tag
+- Budget: tracks costs against a configured amount over a monthly, quarterly or annual period
+- Configure alerts for actual or forecast costs at percentage thresholds
+- A budget does not cap spending or automatically stop resources
+- Use an action group and automation when a budget threshold must trigger operational action
+- Cost data and budget evaluations are not real-time, so budget alerts are not an immediate spending safeguard
+- Cost Management Reader: views cost data and configuration
+- Cost Management Contributor: manages cost configuration such as budgets and exports within the assigned scope
+- Azure Advisor provides recommendations for cost, reliability, security, performance and operational excellence
+- Cost recommendations can identify idle resources, oversized virtual machines and reservation opportunities
+- Reservations: discounted pricing for qualifying committed usage, not a guarantee of compute capacity
+- Azure savings plan for compute: discounted eligible compute usage in exchange for an hourly spending commitment
+- Azure Hybrid Benefit: applies eligible existing Windows Server or SQL Server licenses to reduce qualifying Azure costs
+- Deallocating a virtual machine stops compute charges, but disks and other retained resources can still incur charges

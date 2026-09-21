@@ -40,3 +40,15 @@
 - Secured Environment Variables:
     - By default, Environment Variables are store in plaintext
     - If we need to secure your environment variables you can use the --secure-environment-variables flag
+
+## Deployment, Sizing and Scaling
+
+- In the Azure portal, select the image source, operating system, CPU, memory, networking and restart policy
+- For private registry images, configure registry credentials or a supported managed identity with image pull permissions
+- Set CPU and memory requests for each container; group allocation depends on the requests of its containers
+- ACI does not provide built-in horizontal autoscaling; use automation to create additional groups or choose Container Apps
+- A virtual network deployment uses a subnet delegated to `Microsoft.ContainerInstance/containerGroups`
+- Virtual network container groups use private IP addresses rather than a directly assigned public endpoint
+- An Azure Files volume can persist data after a container group is deleted
+- Check container events and logs for image pull failures, startup errors and exhausted memory
+- OnFailure restarts a container only when its process exits with a nonzero exit code

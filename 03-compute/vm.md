@@ -197,3 +197,31 @@
 - Required update extensions are installed and managed automatically when an update operation first runs
 - Azure Automation Update Management and its Microsoft Monitoring Agent (MMA) dependency are retired legacy technologies
 
+## Resize and Manage VM State
+
+- Stopped: the operating system is shut down but compute remains allocated and billed
+- Stopped (deallocated): compute allocation is released and compute billing stops
+- Deallocation does not stop charges for retained disks and other billable resources
+- Resizing a running VM causes a restart
+- If the requested size is unavailable on the current hardware cluster, deallocate the VM before resizing
+- Resizing within an availability set can require deallocating all VMs in that set
+- Check regional capacity, subscription quotas, disk compatibility and NIC limits before choosing a new size
+- Temporary disk data can be lost after resizing, deallocation or redeployment
+- A dynamically allocated public IP can change after deallocation; use a static public IP when its address must persist
+
+## Availability Zones and Relocation
+
+- Availability zone: physically separate datacenter group with independent power, cooling and networking in one region
+- Deploy at least two VM instances across at least two zones to qualify for the 99.99% VM connectivity SLA
+- A single zonal VM is not automatically duplicated into another zone
+- Use load balancing and application-level replication where the workload requires multiple active instances
+- Availability sets and availability zones are different placement options, not interchangeable settings
+- A resource group or subscription move changes management scope, not the VM's physical region
+- Use Azure Resource Mover for supported cross-region moves and include dependent network resources
+- Cross-region move workflow:
+    - Discover dependencies and prepare target resources
+    - Replicate and initiate the move
+    - Validate the target and commit the move
+    - Remove source resources only after successful validation
+- Plan for changed public IP addresses, target-region quotas and application downtime during cutover
+

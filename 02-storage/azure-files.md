@@ -114,3 +114,19 @@
     - Date policy: tiers files not accessed within a specified number of days
 - Only the file content is tiered, the namespace and file metadata always stay on the server
 - Cloud tiering is not supported on the Windows system volume
+
+## Create and Authorize a File Share
+
+- Select a storage account and share configuration supporting the required protocol, performance and redundancy
+- Configure share capacity or quota and mount the share using its Azure Files hostname
+- Enable the chosen directory identity source on the storage account before using identity-based SMB access
+- Only one directory identity source can be configured per storage account
+- For AD DS authentication, configure the storage account's domain identity and ensure clients can obtain Kerberos tickets
+- Configure both authorization layers:
+    - Share-level permissions through an Azure role assignment or a configured default share permission
+    - Directory and file permissions through Windows access control lists
+- Effective access must be allowed by both layers; a share Contributor role does not bypass file permissions
+- Check identity synchronization and group membership when assigning share roles to hybrid users
+- For mount failures, check DNS, network reachability on TCP port 445, authentication and both permission layers
+- Share soft delete protects a deleted share, not an individual file deleted from an active share
+- Restore individual files from a share snapshot or an applicable Azure Backup recovery point

@@ -248,3 +248,43 @@
     - Single instance: keeps only a single copy of the WebJob running regardless of the instance count of the App Service Plan
 - The `WEBJOBS_STOPPED` app setting with a value of 1 stops all WebJobs on the site
 - The `WEBJOBS_DISABLE_SCHEDULE` app setting with a value of 1 disables triggered WebJobs, useful on a staging slot when marked as a deployment slot setting
+
+## Custom Domains and TLS
+
+- Map a custom hostname in both DNS and the app's Custom domains settings
+- Common DNS mappings:
+    - Subdomain: CNAME record pointing to the app's default hostname
+    - Root domain: A record pointing to the app's inbound IP address
+    - Domain ownership: TXT record using the app's custom domain verification ID
+- DNS mapping alone does not register the custom hostname with App Service
+- Enable HTTPS Only to redirect HTTP requests to HTTPS
+- Configure the minimum incoming TLS (Transport Layer Security) version separately from the certificate binding
+- Bind a certificate covering the custom hostname after adding the domain
+- Certificate choices include an eligible free App Service managed certificate, an imported Key Vault certificate or an uploaded private certificate
+- SNI (Server Name Indication) binding allows multiple certificates to share an IP address
+- Custom TLS bindings require Basic or a higher supported tier
+- Configure certificate renewal and keep the DNS validation records required by the selected certificate method
+
+## Networking Configuration
+
+- Regional virtual network integration provides outbound access from the app to a virtual network
+- Integration uses a subnet delegated to `Microsoft.Web/serverFarms` and does not make inbound access private
+- A private endpoint provides private inbound access to the app
+- Configure private DNS for the app hostname and the deployment endpoint when using private access
+- Access restrictions allow or deny inbound public-endpoint requests using rules such as IP ranges or service endpoints
+- Configure deployment endpoint restrictions separately or choose to inherit the main site's restrictions
+- Private endpoint traffic is not evaluated by the app's public-endpoint access restriction rules
+- Use routing settings to send required outbound traffic through the integrated virtual network
+- Network integration does not grant permission to read a storage account or database; configure authorization separately
+
+## Backup and Restore
+
+- Automatic backups are platform-managed; custom backups allow control of the schedule and retention
+- Check that the app's plan and configuration support the required backup mode
+- Custom backups require Standard or a higher supported tier and an accessible storage container
+- Configure storage access through a shared access signature (SAS) with the required permissions and validity period
+- Backup content includes supported application files and configuration, not every connected service
+- Back up external databases separately unless using a supported explicitly configured database backup option
+- Restore to a staging slot when possible, validate the restored app, then swap it into production
+- A restore can overwrite existing content and configuration; select the destination and recovery point carefully
+- Check backup status, storage access, SAS expiry and network restrictions when a custom backup fails

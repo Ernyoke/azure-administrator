@@ -171,3 +171,37 @@
 - Private Link service: makes your own workload privately available through Azure Private Link
 - A standard Private Link service deployment references the frontend IP configuration of an Azure Standard Load Balancer
 - Azure Basic Load Balancer is not supported by Private Link service
+
+## Service Endpoints and Private Endpoints
+
+- Service endpoint: extends subnet identity to a supported Azure platform as a service (PaaS) service
+- Enable the service endpoint on the client subnet, then allow that subnet in the target service's network rules
+- Service endpoints use the service's public endpoint and do not require a private DNS zone
+- A service endpoint does not make the service accessible through a private IP from on-premises
+- Private endpoint: creates a private IP connection to a specific service subresource
+- A private endpoint connection must be approved automatically by an authorized creator or manually by the service owner
+- Reach a private endpoint through the same VNet, connected peered VNets or connected on-premises networks
+- Private endpoint access still requires correct routing, DNS and service-level authorization
+- A service supporting several subresources can require several private endpoints
+
+## Public and Private IP Configuration
+
+- Configure private IP allocation on the Azure NIC rather than manually choosing an unrelated address inside the guest
+- Dynamic private allocation assigns an available address from the subnet
+- Static private allocation reserves a chosen available subnet address for the NIC
+- Standard public IP addresses use static allocation and require explicitly permitted inbound connectivity
+- For a VM, allow required traffic through an NSG before expecting a Standard public IP to accept connections
+- Match a public IP's SKU to the requirements of its associated load balancer or other service
+- Select zone-redundant or zonal public IP placement where supported and consistent with the target service
+- Basic public IP addresses were retired on September 30, 2025; use Standard for current deployments
+- NAT (Network Address Translation) Gateway provides explicit outbound connectivity for associated subnets, not unsolicited inbound access
+- A public IP or NAT Gateway does not override NSG denies or an incompatible route
+
+## Peering Configuration
+
+- Peering requires a connection in each direction; confirm both connections show Connected
+- Allow virtual network access enables communication over the peering, subject to routing and security rules
+- Allow forwarded traffic is needed when accepting traffic forwarded by an appliance in the peered VNet
+- Gateway transit lets a spoke use a hub's gateway when the hub allows transit and the spoke uses remote gateways
+- A spoke using a remote gateway cannot also have its own virtual network gateway
+- After changing a peered VNet address space, synchronize the peering and check effective routes

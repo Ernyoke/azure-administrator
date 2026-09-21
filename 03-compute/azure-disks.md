@@ -171,3 +171,25 @@
 - Ultra Disk and Premium SSD v2 do not use disk bursting because their provisioned IOPS and throughput can be adjusted directly
 - Standard HDD does not support disk bursting
 
+## Configure Encryption at Host
+
+- Verify subscription feature registration and support for the selected VM size before enabling encryption at host
+- Configure encryption at host in the VM security settings or deployment template
+- Deallocate an existing VM before changing its encryption-at-host setting
+- Encryption at host cannot be combined with Azure Disk Encryption on the same VM
+- For customer-managed managed-disk encryption, configure a disk encryption set and grant its identity access to the key
+- Keep the key available for the lifetime of dependent disks, snapshots and backups
+
+## Attach, Resize and Retain Disks
+
+- Create or select a managed data disk in a compatible region and availability zone before attaching it
+- The VM size determines the maximum data disk count and aggregate storage performance
+- Attaching a disk does not format it or make its filesystem ready inside the guest OS
+- Initialize and format a new disk, then assign a drive letter or mount point inside the VM
+- Expand the managed disk first, then extend the partition and filesystem inside the guest
+- Managed disks can be expanded but not shrunk in place
+- Online expansion support depends on the disk and VM configuration; some changes require deallocation or detachment
+- Unmount a data disk or stop applications using it before detaching it
+- Detaching a managed disk does not delete its data or stop its storage charges
+- The disk's delete option determines whether deleting its VM also deletes the disk
+
