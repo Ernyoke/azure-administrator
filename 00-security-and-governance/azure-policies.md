@@ -1,14 +1,22 @@
 # Azure Policies
 
 - They enforce organizational standards for compliance
-- Policies do not restrict access, they only observe for compliance
+- Policies govern resource properties and configuration, not who can perform an action; access is controlled by Azure RBAC
+- Depending on the effect, a policy can only audit compliance or actively block non-compliant requests, such as with Deny
 - Azure has "built-in" policies you can use right away
-- Policy Definitions: a policy definition is a JSON file used to describe business rules to control access to resources
-- Policy Assignment: the scope of a policy can affect. Assigned to a user, a resource group, or a management group
+- Policy Definitions: a policy definition is a JSON file used to describe business rules that resources must comply with
+- Policy Assignment: the scope a policy applies to, such as a management group, subscription, resource group or resource
 - Policy Parameters: values we can pass into your Policy definition so our Policies are more flexible for re-use
 - Initiative Definitions: an initiative definition is a collection of policy definitions, that we can assign. eg. A group of policies to enforce PCI-DSS compliance
- -Once a policy is assigned it will evaluate for the compliance state periodically
+- Once a policy is assigned it will evaluate for the compliance state periodically
 - We can see how compliant we are on the Compliance tab
+
+## Evaluation Timing
+
+- A new or updated assignment is applied to its scope in about 30 minutes
+- Standard compliance evaluation runs every 24 hours
+- Create and update requests are evaluated when they are made
+- Trigger an on-demand evaluation with `az policy state trigger-scan` or `Start-AzPolicyComplianceScan`
 
 ## Anatomy of an Azure Policy Definition File
 
@@ -50,6 +58,15 @@
 - AuditIfNotExists: audits a resource when a related resource or property does not exist
 - DeployIfNotExists: deploys a resource when a specified condition is met, such as configuring encryption after a database is created
 - Disabled: ignores the policy rule and is often used for testing
+- Modify: adds, updates or removes properties or tags on a resource during creation or update
+- DenyAction: blocks requests for specific actions, such as deleting a resource
+- Manual: records compliance that is attested manually rather than evaluated automatically
+- Effect evaluation order when several policies apply:
+    - Disabled
+    - Append and Modify
+    - Deny
+    - Audit
+    - AuditIfNotExists and DeployIfNotExists run after the resource provider returns a successful response
 
 ## Assignment and Remediation
 
@@ -57,7 +74,6 @@
 - Assignments apply to child scopes unless excluded or exempted
 - Policy enforcement depends on the effect: Audit observes, while Deny blocks non-compliant create and update requests
 - Existing non-compliant resources are not deleted by a Deny assignment
-- Modify: adds, updates or removes supported properties, such as a cost center tag
 - Modify and DeployIfNotExists assignments need a managed identity with the permissions required for remediation
 - A remediation task applies Modify or DeployIfNotExists to existing non-compliant resources
 - Assigning a remediation policy does not automatically repair all existing resources

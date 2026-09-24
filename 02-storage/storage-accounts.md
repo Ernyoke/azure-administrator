@@ -121,7 +121,9 @@
 ### Rehydrating a Blob
 
 - Rehydration: moving an archived blob to the hot, cool or cold online tier
-- Rehydration can take up to 15 hours depending on the selected priority
+- Rehydration priority:
+    - Standard: can take up to 15 hours
+    - High: usually completes in under 1 hour for blobs smaller than 10 GB
 - Archived blob data cannot be read or modified until rehydration completes
 
 ### Blob Lifecycle Management

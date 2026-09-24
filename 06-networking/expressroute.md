@@ -1,6 +1,6 @@
 # Azure ExpressRoute
 
-- Azure ExpressRoutes creates private connections between Azure datacenters and infrastructure on our premises or in a colocation environment
+- Azure ExpressRoute creates private connections between Azure datacenters and infrastructure on our premises or in a colocation environment
 - ExpressRoute connections don't traverse the public Internet, ensuring enhanced reliability, faster speeds, consistent latencies, and heightened security compared to traditional internet connections
 - Connectivity options include:
     - Any-to-any (IP VPN) network
@@ -28,6 +28,7 @@
 - Private peering: connects to VNets using private IP addresses, used for VMs and other resources
 - Microsoft peering: connects to Microsoft public services such as Microsoft 365, Dynamics 365 and Azure PaaS services over public IP addresses
 - Public peering is deprecated and replaced by Microsoft peering
+- Microsoft peering advertises no routes until a route filter is attached that selects the required service communities
 - Each peering needs a VLAN ID, an ASN (Autonomous System Number) and a pair of /30 subnets for the primary and secondary links
 - Routes are exchanged dynamically with BGP (Border Gateway Protocol)
 

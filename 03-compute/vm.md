@@ -19,7 +19,8 @@
 
 ## Availability
 
-- A single VM instance has a 99.9% availability Service Level Agreement (SLA) when all attached OS and data disks use Premium SSD or Ultra Disk storage
+- A single VM instance has a 99.9% availability Service Level Agreement (SLA) when all attached OS and data disks use Premium SSD, Premium SSD v2 or Ultra Disk storage
+- A single VM instance using Standard SSD disks has a 99.5% SLA, and one using Standard HDD disks has a 95% SLA
 - Two or more VM instances deployed in an availability set provide a 99.95% availability SLA
 
 ## Availability Sets
@@ -29,7 +30,7 @@
     - Azure supports up to three fault domains per availability set, depending on the region
     - VMs in different fault domains reduce the impact of hardware, power and network failures
 - Update domain: logical group of VMs that can undergo planned maintenance and restart together
-    - An availability set supports up to 20 update domains
+    - An availability set has 5 update domains by default and supports up to 20
     - Azure processes update domains one at a time during planned maintenance
 - Azure automatically assigns each VM to a fault domain and an update domain
 - Deploy at least two VMs in an availability set to qualify for the 99.95% SLA
@@ -150,6 +151,17 @@
 - Provides browser-based RDP and SSH access without installing additional clients or agents
 - Supports devices that cannot run traditional RDP clients, such as Chromebooks
 - Avoids exposing target VMs directly to the public internet
+
+### SKUs
+
+- Developer: free, shared infrastructure, one connection at a time and no dedicated subnet
+- Basic: dedicated deployment with browser-based RDP and SSH through the Azure portal
+- Standard:
+    - Adds host scaling for more concurrent sessions
+    - Adds native client support, so users can connect with the local RDP or SSH client through Azure CLI
+    - Adds shareable links, IP-based connections, custom ports, file upload and download
+- Premium: adds session recording and private-only deployment
+- A SKU can be upgraded, but not downgraded
 
 ### Subnet Configuration
 

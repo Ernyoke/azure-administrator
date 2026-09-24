@@ -16,7 +16,8 @@
     - Monitoring: topology, connection monitor
     - Network diagnostic tools: IP flow verify, NSG diagnostics, next hop, effective security rules, connection troubleshoot, packet capture, VPN troubleshoot
     - Traffic: flow logs, traffic analytics
-- Most VM-level tools require the Network Watcher Agent VM extension to be installed on the target VM
+- Packet capture, connection troubleshoot and Connection Monitor require the Network Watcher Agent VM extension on the target VM
+- IP flow verify, NSG diagnostics, next hop and effective security rules work from Azure configuration and do not need the agent
 
 ## Topology
 
@@ -98,6 +99,7 @@
 
 - NSG flow logs record IP traffic flowing through a network security group
 - Virtual network (VNet) flow logs record traffic at the virtual network level and are the recommended replacement for NSG flow logs
+- New NSG flow logs cannot be created after June 30, 2025, and NSG flow logs retire on September 30, 2027
 - Flow logs are stored in a storage account in JSON format
 - Data is written every 60 seconds and retention can be set from 0 (forever) to 365 days
 - Logged data includes source and destination IP and port, protocol, direction, decision (allow or deny), and flow state

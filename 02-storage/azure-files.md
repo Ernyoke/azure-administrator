@@ -11,7 +11,8 @@
     - Lift-and-shift applications that expect a file share
     - Shared application settings, diagnostic shares and development tools
 - Encrypted at rest with Storage Service Encryption (SSE) and in transit with SMB 3.x encryption
-- SMB 3.0 or later is required to mount a share outside an Azure region because port 445 must be open outbound
+- Mounting a share from outside its Azure region, including from on-premises, requires SMB 3.x because encryption in transit is required
+- Outbound TCP port 445 must also be open, which some ISPs and corporate networks block
 
 ## Share Tiers
 
@@ -33,7 +34,7 @@
 ## Share Limits and Redundancy
 
 - Standard shares support up to 5 TiB by default and up to 100 TiB with large file shares enabled
-- Large file shares require LRS or ZRS and cannot be enabled on GRS or GZRS accounts
+- Large file shares are supported with LRS, ZRS, GRS and GZRS redundancy
 - Premium shares support up to 100 TiB without extra configuration
 - Redundancy options:
     - Standard: LRS, ZRS, GRS, GZRS
@@ -67,7 +68,8 @@
 - Share snapshots are read-only point-in-time copies of an entire file share
 - Snapshots are incremental, only changed blocks are stored after the first snapshot
 - Up to 200 snapshots can be retained per share
-- Deleting a share deletes all its snapshots, so snapshots must be deleted before the share is removed
+- A share that has snapshots cannot be deleted unless its snapshots are deleted with it
+- Deleting a share together with its snapshots removes every snapshot, so snapshots do not protect against share deletion
 - Soft delete for file shares allows recovery of a deleted share within a retention period of 1 to 365 days
 - Azure Backup protects file shares using snapshot-based backup and does not require an agent
 
@@ -75,7 +77,8 @@
 
 - Azure File Sync caches Azure file shares on one or more on-premises or Azure Windows Servers
 - Turns Windows Server into a fast cache of the Azure file share while the share stays the authoritative copy
-- Requires Windows Server 2012 R2 or later with NTFS volumes
+- Requires Windows Server 2016 or later with NTFS volumes
+- Windows Server 2012 R2 support ended on June 9, 2025
 - Benefits:
     - Centralizes file shares in Azure while keeping local access performance
     - Multi-site sync keeps several servers in sync with the same share

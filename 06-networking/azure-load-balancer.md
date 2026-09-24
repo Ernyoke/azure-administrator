@@ -24,6 +24,9 @@
 
 - SKU (Stock Keeping Unit): determines the load balancer's feature set
 - Standard: supports public and internal load balancing, availability zones, outbound rules, and Azure Monitor metrics
+- Global tier: a Standard cross-region load balancer with a global public frontend that distributes traffic across regional Standard public load balancers
+    - Provides instant regional failover and preserves the client source IP address
+    - Backends must be regional public load balancers, not VMs directly
 - Gateway: used to insert third-party network virtual appliances (NVAs), such as firewalls, into a traffic path
 - Basic: retired on September 30, 2025, existing deployments should migrate to Standard
 - A Standard public load balancer requires a Standard public IP address

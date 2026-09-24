@@ -9,7 +9,10 @@
 - Managed disks integrate with availability sets by placing disks in separate storage scale units to reduce single points of failure
 - Managed disks support Availability Zones for protection against datacenter failures
 - Azure Backup supports scheduled backups and retention policies for managed disks
-- We can directly upload virtual hard disk (VHD) and VHDX files up to 32 TiB to managed disks
+- We can directly upload fixed-size virtual hard disk (VHD) files up to 32 TiB to managed disks
+- VHDX files are not supported and must be converted to fixed-size VHD first; `Add-AzVhd` can convert them during upload
+- Zone-redundant storage (ZRS) disks replicate synchronously across three availability zones and are available for Premium SSD and Standard SSD
+- A ZRS disk can be attached to a VM in a different zone after a zone failure
 - Azure Private Link restricts managed disk import and export traffic to the Microsoft backbone network
 
 ## Encryption
@@ -192,4 +195,14 @@
 - Unmount a data disk or stop applications using it before detaching it
 - Detaching a managed disk does not delete its data or stop its storage charges
 - The disk's delete option determines whether deleting its VM also deletes the disk
+
+## Host Caching
+
+- Host caching uses local VM host storage to improve disk read or write latency
+- Cache options:
+    - None: suited to write-heavy or log disks
+    - ReadOnly: suited to read-heavy data disks
+    - ReadWrite: default for OS disks; use on data disks only when the application handles writing cached data safely
+- Changing the caching setting of a data disk can detach and reattach the disk
+- Ultra Disk and Premium SSD v2 do not support host caching
 

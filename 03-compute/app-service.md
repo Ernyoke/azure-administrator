@@ -19,7 +19,8 @@
     - Staging environments
     - Custom domains
     - Attaching TLS/SSL certificates
-- Can run single-container or multi-container Docker workloads
+- Can run single-container workloads, and sidecar containers can add supporting services to Linux apps
+- Multi-container Docker Compose apps are retiring and should be migrated to sidecar containers
 - The app name must be globally unique because it becomes a fully qualified domain name
 
 ## Azure App Services - Runtimes
@@ -33,13 +34,11 @@
 - A runtime is selected when configuring an Azure App Service
 - Available runtimes include:
     - .NET
-    - .NET Core
     - Java
-    - Ruby
     - Node.js
     - PHP
     - Python
-- Azure App Service generally provides multiple current versions of a programming language, such as Ruby 2.6 and 2.7
+- Azure App Service generally provides multiple supported versions of a language, such as several Node.js or Python versions
 - Cloud providers retire support for older runtime versions, requiring customers to upgrade and apply current security patches
 
 ## Azure App Service - Custom Containers

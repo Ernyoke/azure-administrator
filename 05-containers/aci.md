@@ -1,15 +1,16 @@
 # Azure Container Instances (ACI)
 
 - Azure Container Instances (ACIs) allow us to launch containers without the need to worry about configuring or managing the underlying virtual machine
-- Azure Container Instances is designed for isolate containers:
+- Azure Container Instances is designed for isolated containers:
     - Simple applications
     - Task automation
-    - Bbuild jobs
+    - Build jobs
 - Containers can be provisioned within seconds where VMs can take several minutes
-- Containers are billed per second where VMs are billed per hour (greater savings)
+- Containers are billed per second for the vCPU and memory allocated to the container group, with no VM to manage
 - Containers have granular and custom sizing of vCPUs, Memory and GPUs where VMs sizes are predetermined
 - ACI can deploy both Windows and Linux containers
-- WE can persist storage with Azure Files for your ACI containers
+- We can persist storage with Azure Files for ACI containers
+- Azure Files volume mounts are supported only for Linux containers
 - ACIs are accessed via a fully qualified domain name (FQDN) eg customlabel.azureregion.azurecontainer.io
 
 ## Container Groups
@@ -29,17 +30,17 @@
 
 - A container restart policy specifies what a container should do when their process has completed
 - Azure Container Instances has 3 restart-policy options:
-    - Always (default) Containers are always restarted. Suited for long running tasks eg. web-servers
-    - Never Containers run one time only. Suited for one off tasks. eg. background jobs
-    - OnFailure Containers that encounter an error
+    - Always (default): containers are always restarted, suited for long running tasks such as web servers
+    - Never: containers run one time only, suited for one-off tasks such as background jobs
+    - OnFailure: containers are restarted only when their process exits with an error
 
 ## Container Environment Variables
 
 - Environment variables (Env Vars) allow us to pass configuration details to your containers
 - Environment variables can be set via the Azure Portal, CLI or PowerShell
 - Secured Environment Variables:
-    - By default, Environment Variables are store in plaintext
-    - If we need to secure your environment variables you can use the --secure-environment-variables flag
+    - By default, environment variables are stored in plaintext
+    - Use the `--secure-environment-variables` flag to hide values from the container group properties
 
 ## Deployment, Sizing and Scaling
 

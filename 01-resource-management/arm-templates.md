@@ -28,7 +28,7 @@
     - Authoring tools: use Visual Studio Code features to create and validate templates
 - ARM templates can deploy nearly all artifacts previously supported by Azure Blueprints
 - An ARM template is stored locally or in source control and has no active relationship with resources after deployment
-- Azure Blueprints maintained relationships between blueprint assignments and deployed resources, but the service was retired on July 11, 2026
+- Azure Blueprints maintained relationships between blueprint assignments and deployed resources, but the service entered phased retirement on July 31, 2026 and fully retires on January 31, 2027
 - ARM template limits:
     - 4 MB maximum template size and 4 MB maximum parameter file size
     - 256 parameters, 256 variables, 800 resources and 64 outputs per template

@@ -7,7 +7,7 @@
     - Azure VMs
     - Azure Files
     - SQL Server (within Azure VM)
-    - SAP HANNA databases (within Azure VM)
+    - SAP HANA databases (within Azure VM)
     - Azure Database for PostgreSQL server
 - Why to use Azure Backup Service:
     - Offload on-premises backups
@@ -26,7 +26,8 @@
 - The data itself is copies of data, or configuration information for VMs, workloads, servers, or workstations
 - Can store backup data for various Azure services:
     - IaaS VMs (Linux or Windows)
-    - Azure SQL databases
+    - SQL Server and SAP HANA databases running in Azure VMs
+    - Azure Files
 - Recovery Services vaults supports:
     - System Center (Data Protection Manager) DPM
     - Windows Server
@@ -54,11 +55,16 @@
 
 ## Backup Policies
 
-- To create a backup policy you choose a datasource type:
-    - Azure VMs or PSQL database
-    - Choose the frequency
-- How many snapshots you want to retain
-- Choose the time range for your retention
+- To create a backup policy:
+    - Choose the datasource type, such as Azure VM, Azure Files or Azure Database for PostgreSQL
+    - Choose the backup frequency and time
+    - Choose how many days Instant Restore snapshots are retained
+    - Choose the retention range for daily, weekly, monthly and yearly recovery points
+- Azure VM backup policy types:
+    - Standard: one backup per day, Instant Restore snapshots retained for 1 to 5 days
+    - Enhanced: multiple backups per day, Instant Restore snapshots retained for 1 to 30 days
+- Enhanced policy is required for Trusted Launch VMs, Premium SSD v2 and Ultra Disk
+- Daily recovery points can be retained for up to 9999 days
 
 ## Recovery Services Vault vs Backup Vault
 
@@ -101,8 +107,9 @@
 
 ## Backup Security
 
-- Soft delete retains supported deleted backup data for recovery during the configured retention period
-- Enhanced soft delete supports configurable retention and an always-on setting that cannot be disabled once enabled
+- Soft delete retains supported deleted backup data for recovery during the configured retention period, 14 days by default
+- Enhanced soft delete retention can be configured from 14 to 180 days
+- Enhanced soft delete supports an always-on setting that cannot be disabled once enabled
 - Immutable vault settings prevent operations that would prematurely remove protected recovery points
 - Locking vault immutability is irreversible, so validate policies before locking
 - MUA (multi-user authorization) with Resource Guard requires separate authorization for protected critical operations

@@ -61,6 +61,12 @@
     - Security: classification of data and security impact
     - Automation
     - Workload optimization
+- Tag limits:
+    - Up to 50 tag name-value pairs per resource, resource group or subscription
+    - Tag name: up to 512 characters, or 128 characters for storage accounts
+    - Tag value: up to 256 characters
+- Tag names are case-insensitive for operations, while tag values are case-sensitive
+- Applying or changing tags requires write access to the resource or the Tag Contributor role
 
 ## Resource Locks
 
@@ -68,6 +74,9 @@
 - In the Azure portal, we can set the following lock levels:
     - `CanNotDelete`: authorized users can still read and modify the resource, but they cannot delete it
     - `ReadOnly`: authorized users can read the resource, but they cannot delete or update it
+- The portal shows these levels as Delete and Read-only
+- Creating or deleting locks requires `Microsoft.Authorization/locks/*` permissions
+    - Among built-in roles, only Owner and User Access Administrator have these permissions
 
 ## Azure Blueprints
 

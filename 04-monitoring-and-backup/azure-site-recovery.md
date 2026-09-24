@@ -1,20 +1,20 @@
 # Azure Site Recovery
 
-- Azure Site Recovery (ASR) is a hybrid (on-premise to cloud) backup solution for site-to-site recovery
+- Azure Site Recovery (ASR) is a disaster recovery service that replicates workloads to a secondary location, not a backup solution
 - ASR is one of the tools useful for your business continuity and disaster recovery (BCDR) strategy
 - Site Recovery replicates workloads from a primary site to a secondary site
 - In case primary site suffers a failure, Site Recovery will fail-over to the secondary site to ensure continuity of services
 - Site Recover can replicate:
     - Azure VMs between regions (cross-region replication)
-    - Windows, Any OS, and Linux
-    - On-premise to Azure
-    - Between other Cloud Service Providers eg AWS to Azure
-    - VMWare, Hyper-V, or Physical Machines
+    - Windows and Linux machines
+    - On-premises machines to Azure
+    - Machines in other cloud providers, such as AWS, to Azure as physical servers
+    - VMware VMs, Hyper-V VMs and physical machines
 
 ## RPO vs RTO
 
-- Recovery Point Objectives (RPO) how often you backup (how much data loss can you tolerate?)
-- Recovery Time Objectives (RTO) how quickly you can recover a backup after experiencing a disaster
+- Recovery Point Objective (RPO): maximum acceptable data loss measured in time, such as losing at most 15 minutes of data
+- Recovery Time Objective (RTO): maximum acceptable time to restore the service after a disaster
 
 ## Replication vs Backup
 

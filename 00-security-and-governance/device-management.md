@@ -1,34 +1,35 @@
-# Azure AD - Device Management
+# Microsoft Entra ID - Device Management
 
-- Device Management is the management of physical devices such as phones, tables, laptops and desktop computes that are granted access to company resources such as printers, cloud resources via device-based Conditional Access
-- There are 3 ways to get devices into Azure AD:
-    - Azure AD Registered:
+- Device Management is the management of physical devices such as phones, tablets, laptops and desktop computers that are granted access to company resources such as printers, cloud resources via device-based Conditional Access
+- Azure AD was renamed to Microsoft Entra ID; the device states are now Microsoft Entra registered, Microsoft Entra joined and Microsoft Entra hybrid joined
+- There are 3 ways to get devices into Microsoft Entra ID:
+    - Microsoft Entra Registered:
         - Personally owned on mobile devices and signed with a personal Microsoft or local account
-    - Azure AD Joined:
-        - Owned by an organization and signed in with an Azure AD account belonging to the org
+    - Microsoft Entra Joined:
+        - Owned by an organization and signed in with a Microsoft Entra account belonging to the org
         - They exist only in the cloud
-        - E.g.: Windows 10, Windows Server 2019 VMs running in Azure (Server core is not supported)
-    - Hybrid Azure AD Joined:
+        - E.g.: Windows 10 or 11, Windows Server 2019 or later VMs running in Azure (Server Core is not supported)
+    - Microsoft Entra Hybrid Joined:
         - Owned by an organization and signed in with an AD DS account belonging to the org
         - They exist in the cloud and on-premises
-        - E.g.: Windows 7, 8 or 10, Windows Server 2008 or newer
+        - E.g.: Windows 10 or 11, Windows Server 2016 or newer
 
-## Azure AD Registered Devices
+## Microsoft Entra Registered Devices
 
-- Definition: Registered to Azure AD without requiring organizational account to sign into the device
+- Definition: Registered to Microsoft Entra ID without requiring organizational account to sign into the device
 - Primary audience: Bring your own device (BYOD), mobile devices
 - Device ownership: user or organization
-- Operating systems: Windows 10, iOS, Android and MacOS
+- Operating systems: Windows 10 or 11, iOS, Android, macOS and Ubuntu
 - Provisioning:
-    - Windows 10 - Settings
+    - Windows 10 or 11 - Settings
     - iOS/Android - Company Portal or Microsoft Authenticator apps
-- Device sign in options
+- Device sign in options:
     - End-user local credentials, Password, Windows Hello, PIN
     - Biometrics or Pattern for other devices
-- Device management
+- Device management:
     - Mobile Device Management (example: Microsoft Intune)
     - Mobile Application Management
-- Key capabilities
+- Key capabilities:
     - SSO to cloud resources
     - Conditional Access when Enrolled into Intune
     - Conditional Access via App protection policy
@@ -67,32 +68,32 @@
 
 - Microsoft Enterprise Mobility + Security is an intelligent mobility management and security platform
 - Protects and secures organizations and empowers employees to work in new and flexible ways
-- EMS is an umbrella of multiple Microsoft and Azure services, such as Azure Active Directory and Microsoft Intune
+- EMS is an umbrella of multiple Microsoft and Azure services, such as Microsoft Entra ID and Microsoft Intune
 
 ### Microsoft Authenticator App
 
-- It is an application that allows us to securely sing-in for all online accounts using:
+- It is an application that allows us to securely sign in for all online accounts using:
     - MFA
     - Passwordless authentication
     - Password autofill
 
-## AD Joined Devices
+## Microsoft Entra Joined Devices
 
-- Definition: joined only to Azure AD requiring organizational account to sign-in to the device
+- Definition: joined only to Microsoft Entra ID requiring organizational account to sign-in to the device
 - Primary audience: 
     - Suitable for both cloud-only and hybrid organizations
     - Applicable to all users in an organization
 - Device ownership: organization
 - Operating systems:
-    - All Windows 10 devices except Windows 10 Home
-    - Windows Server 2019 Virtual Machine running in Azure (Server Core is not supported)
+    - Windows 10 and Windows 11 devices, except Home editions
+    - Windows Server 2019 or later virtual machines running in Azure (Server Core is not supported)
 - Provisioning:
     - Self-service: Windows OOBE or Settings, Bulk enrollment, Windows Autopilot
 - Device sign in options:
     - Organizational accounts using Password, Windows Hello for Business, FIDO2.0 security keys
 - Device management:
     - Mobile Device Management (Microsoft Intune)
-    - Co-management with Microsoft Intune and Microsoft Endpoint Configuration Manager
+    - Co-management with Microsoft Intune and Microsoft Configuration Manager
 - Key capabilities:
     - SSO to both cloud and on-premises resources
     - Conditional Access through MDM enrollment and MDM compliance evaluation
@@ -109,14 +110,14 @@
 - FIDO2 security keys support passwordless, phishing-resistant authentication using public key cryptography
 - A security key combined with a PIN or biometric can satisfy multifactor authentication without a password
 
-## Hybrid Azure AD Joined Devices
+## Microsoft Entra Hybrid Joined Devices
 
-- Definition: Joined to on-premises AD devices and Azure AD requiring organizational account to sign into the device
+- Definition: Joined to on-premises AD and Microsoft Entra ID, requiring organizational account to sign into the device
 - Primary audience:
     - Suitable for hybrid organizations with existing on-premises AD infrastructure
     - Applicable to all users in an organization
 - Device ownership: organization
-- Supported Operating Systems (Current & Exam-Relevant)
+- Supported operating systems:
     - Windows 10 (Pro, Enterprise, Education — Home not supported)
     - Windows 11 (Pro, Enterprise, Education)
     - Windows Server 2016, 2019, 2022
@@ -128,15 +129,15 @@
     - Supported provisioning scenarios:
         - IT-managed domain join
         - Windows Autopilot (Hybrid Join scenario)
-- Device sign-in options
+- Device sign-in options:
     - Users sign in with on-premises Active Directory domain accounts using:
         - Password
         - Windows Hello for Business
         - FIDO2 security keys
-- Device management
-        - Group Policy
-        - Microsoft Configuration Manager
-        - Co-management with Microsoft Intune (recommended)
+- Device management:
+    - Group Policy
+    - Microsoft Configuration Manager
+    - Co-management with Microsoft Intune (recommended)
 - Key capabilities:
     - Single Sign-On (SSO) to:
         - On-premises resources
@@ -205,7 +206,7 @@
 - Devices can be managed after deployment with:
     - Microsoft Intune
     - Windows Update for Business
-    - Microsoft Endpoint Configuration Manager
+    - Microsoft Configuration Manager
     - Other similar tools
 
 ## Compliance Policies

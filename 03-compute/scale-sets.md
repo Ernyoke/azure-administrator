@@ -1,10 +1,10 @@
 # Scale Sets
 
 - Azure Scale Sets allow us to automatically increase or decrease VM capacity
-- We creatre scaling policies to automatically add or remove instances based on Host Metrics
+- We create scaling policies to automatically add or remove instances based on Host Metrics
 - We can create Health checks and set Repair Policies to replace unhealthy instances
 - We can associate a Load Balancer to distribute VMs across AZs
-- We can salce to 100s/1000s of VMs using scale sets
+- We can scale to 100s/1000s of VMs using scale sets
 - A scale set itself is free, you only pay for the underlying VMs, disks and networking
 
 ## Orchestration Modes
@@ -44,12 +44,12 @@
     - Evenly distribute our VMs across multiple Availability Zones to make your application Highly Available
     - Use Load Balancer probe checks for more robust Health checks
 - We have the choice between 2 different load balancers:
-    - Application Gateway is an HTTP/HTTPS web traffic load balancer with URL-based routing, SSL termination, session persistence, and web application firewall 
-    -Azure Load Balancer supports all TCP/UDP network traffic, port-forwarding, and outbound flows
+    - Application Gateway is an HTTP/HTTPS web traffic load balancer with URL-based routing, SSL termination, session persistence, and web application firewall
+    - Azure Load Balancer supports all TCP/UDP network traffic, port-forwarding, and outbound flows
 
 ## Scaling Policies
 
-- A Scaling Policy determinies when a VM should be added/removed to meet a current capacity requirement
+- A Scaling Policy determines when a VM should be added/removed to meet a current capacity requirement
 - Scale Out: when a instance should be added to the Scale Set to increase capacity, eg. when CPU Threshold (%) greater than X for Y minutes add X servers
 - Scale In: when a instance should be removed from the Scale Set to decrease capacity, eg. when CPU Threshold (%) less than X for Y minutes remove X servers
 - When we are creating a Scale Set we have very limited options for our Scaling Policy
@@ -64,32 +64,33 @@
     - Disk Write Operations/Sec
     - CPU Credits Remaining
     - CPU Credits Consumed
-- Aggerates:
+- Aggregates:
     - Average
     - Minimum
     - Maximum
     - Total
     - Last
     - Count
-- Operators
+- Operators:
     - Greater than
     - Greater than or equal to
     - Less than
     - Less than or equal to
     - Equal to
     - Not equal to
-- Actions
+- Actions:
     - Increase count by X
     - Increase percent by X%
     - Increase count to X
     - Decrease count by X
     - Decrease percent by X%
     - Decrease count to X
--  Additional Metrics: there are two ways to collect additional metrics:
+- Additional Metrics: there are two ways to collect additional metrics:
     - Application Insights installs a small instrumentation package in the application that monitors the app and sends telemetry to Azure
         - Use for application metrics such as page load performance and session counts
-    - Azure Diagnostics extension is an agent that runs inside a VM instance and saves performance metrics to Azure Storage
-        - Use for more detailed host-based metrics
+    - Azure Monitor Agent (AMA) runs inside a VM instance and collects guest OS performance counters defined by a data collection rule (DCR)
+        - Use for guest OS metrics such as memory and disk space
+        - Replaces the Azure Diagnostics extension, which retired on March 31, 2026
 - Scaling can be triggered in three ways:
     - Manual: you set a fixed instance count yourself
     - Metric-based: rules react to host, application or custom metrics

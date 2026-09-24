@@ -4,14 +4,14 @@
 
 1. Security and Governance:
     - [Microsoft Entra ID](00-security-and-governance/entra-id.md)
-    - [Azure AD - Device Management](00-security-and-governance/device-management.md)
+    - [Microsoft Entra ID - Device Management](00-security-and-governance/device-management.md)
     - [Azure Roles](00-security-and-governance/azure-roles.md)
     - [Azure Policies](00-security-and-governance/azure-policies.md)
 2. Resource Management:
-    - [Azure Resource Manager (ARM)](01-resouce-management/azure-resource-manager.md)
-    - [ARM Templates](01-resouce-management/arm-templates.md)
-    - [Bicep](01-resouce-management/bicep.md)
-    - [Azure CLI and Azure PowerShell](01-resouce-management/azure-cli-and-powershell.md)
+    - [Azure Resource Manager (ARM)](01-resource-management/azure-resource-manager.md)
+    - [ARM Templates](01-resource-management/arm-templates.md)
+    - [Bicep](01-resource-management/bicep.md)
+    - [Azure CLI and Azure PowerShell](01-resource-management/azure-cli-and-powershell.md)
 3. Storage:
     - [Storage Accounts](02-storage/storage-accounts.md)
     - [Azure Blob Storage](02-storage/azure-blobs.md)

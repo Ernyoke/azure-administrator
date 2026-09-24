@@ -291,7 +291,10 @@
     - Logic App
     - ITSM connector
     - Event hub
-- Rate limiting applies to notifications, for example no more than one SMS every five minutes and one email every hour per action group
+- Rate limiting applies per phone number or email address:
+    - SMS: no more than 1 every 5 minutes
+    - Voice call: no more than 1 every 5 minutes
+    - Email: no more than 100 per hour
 
 ## Autoscale
 
@@ -368,6 +371,7 @@
 ### Kusto Control Commands
 
 - Control commands can modify data and metadata and have their own syntax different from KQL
+- Control commands start with a dot and are used in Azure Data Explorer; they cannot be run in Log Analytics
 - The following control command creates a new Kusto table with two columns
 
 ```
@@ -434,3 +438,54 @@
 - `extend`: adds calculated columns to a table
 - `summarize`: aggregates groups of rows
 - `render`: displays query results as graphical output
+
+### Common Log Queries
+
+- Queries start with a table name and pass results through operators with the pipe `|` character
+- `ago()`: returns a time relative to now, such as `ago(1h)`
+- `bin()`: groups values into buckets, such as 5-minute intervals for charts
+- Machines that stopped reporting in the last 15 minutes:
+
+```
+Heartbeat
+| summarize LastHeartbeat = max(TimeGenerated) by Computer
+| where LastHeartbeat < ago(15m)
+```
+
+- Average CPU per computer in 5-minute intervals:
+
+```
+Perf
+| where TimeGenerated > ago(1h)
+| where ObjectName == "Processor" and CounterName == "% Processor Time"
+| summarize AvgCPU = avg(CounterValue) by bin(TimeGenerated, 5m), Computer
+| render timechart
+```
+
+- Windows error events in the last day:
+
+```
+Event
+| where TimeGenerated > ago(1d)
+| where EventLevelName == "Error"
+| project TimeGenerated, Computer, Source, EventID, RenderedDescription
+| sort by TimeGenerated desc
+```
+
+- Who deleted resources in the last week:
+
+```
+AzureActivity
+| where TimeGenerated > ago(7d)
+| where OperationNameValue endswith "/DELETE" and ActivityStatusValue == "Success"
+| project TimeGenerated, Caller, ResourceGroup, _ResourceId
+```
+
+- Failed sign-ins by user:
+
+```
+SigninLogs
+| where ResultType != "0"
+| summarize FailedCount = count() by UserPrincipalName
+| top 10 by FailedCount
+```
